@@ -1,0 +1,1788 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الدليل التفاعلي لواجهة وشريط أدوات Microsoft Word — د. فاطمة قرزي</title>
+<meta name="description" content="درس تفاعلي لطلبة السنة الأولى علوم إنسانية — جامعة الشهيد حمه لخضر بالوادي — مقياس الإعلام الآلي: محاكاة شريط أدوات معالج النصوص مع معاينة حية واختبار تقييم ذاتي.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;600;700;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ============ 1. TOKENS ============ */
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  --w-900:#0B2545;--w-800:#123362;--w-700:#1B4489;--w-600:#2B579A;--w-500:#3D74C4;--w-400:#41A5EE;--w-300:#9CC9F0;--w-100:#E4EEF9;
+  --bg:#EBEFF6;--surface:#FFFFFF;--surface-2:#F3F2F1;--surface-3:#FAF9F8;
+  --line:#E1DFDD;--line-2:#C8C6C4;
+  --ink:#1B1A19;--ink-2:#4A4948;--ink-3:#797775;
+  --amber:#C77700;--amber-s:#F2B33D;--red:#C4314B;--green:#0E7C4A;--teal:#0E7C86;--violet:#6B4FBB;--magenta:#B33AA6;
+  --tab:#2B579A;--tab-2:#41A5EE;
+  --grid-c:rgba(43,87,154,.09);
+  --sh-1:0 1px 2px rgba(16,24,40,.05),0 6px 18px -10px rgba(11,37,69,.28);
+  --sh-2:0 30px 70px -34px rgba(11,37,69,.55),0 2px 10px rgba(11,37,69,.07);
+  --r-s:8px;--r-m:12px;--r-l:18px;--r-xl:26px;
+  --ui:'Tajawal','Segoe UI',system-ui,sans-serif;
+  --nav-h:60px;
+}
+[data-theme="dark"]{
+  --bg:#08111F;--surface:#101E33;--surface-2:#152744;--surface-3:#0D1A2C;
+  --line:#22375A;--line-2:#2F4A76;
+  --ink:#EAF1FA;--ink-2:#B6C6DE;--ink-3:#8298B8;
+  --w-100:#16305A;--grid-c:rgba(120,180,255,.07);
+  --sh-1:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.7);
+  --sh-2:0 30px 70px -30px rgba(0,0,0,.85),0 2px 10px rgba(0,0,0,.4);
+  --amber:#F2B33D;--red:#F06A80;--green:#3ECF8E;--teal:#3FD0DC;--violet:#A48BF0;--magenta:#E576D6;
+}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 18px)}
+body{
+  margin:0;font-family:var(--ui);color:var(--ink);background:var(--bg);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.7;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(1100px 620px at 88% -8%,rgba(65,165,238,.22),transparent 62%),
+    radial-gradient(900px 520px at 2% 12%,rgba(107,79,187,.14),transparent 60%),
+    radial-gradient(800px 600px at 50% 108%,rgba(14,124,134,.13),transparent 62%);
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55;
+  background-image:linear-gradient(var(--grid-c) 1px,transparent 1px),linear-gradient(90deg,var(--grid-c) 1px,transparent 1px);
+  background-size:46px 46px;
+  -webkit-mask-image:radial-gradient(circle at 50% 30%,#000,transparent 78%);
+  mask-image:radial-gradient(circle at 50% 30%,#000,transparent 78%);
+}
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.28;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E")}
+[data-theme="dark"] .grain{mix-blend-mode:screen;opacity:.12}
+/* scrollbars */
+html{scrollbar-color:var(--w-600) var(--surface-2);scrollbar-width:thin}
+::-webkit-scrollbar{width:12px;height:12px}
+::-webkit-scrollbar-track{background:var(--surface-2)}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--w-500),var(--w-700));border:3px solid var(--surface-2);border-radius:99px}
+::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,var(--w-400),var(--w-600))}
+::-webkit-scrollbar-corner{background:var(--surface-2)}
+.wrap{width:min(1280px,94vw);margin-inline:auto;position:relative;z-index:2}
+/* ============ 2. MASTHEAD ============ */
+.masthead{position:relative;overflow:hidden;color:#fff;isolation:isolate;
+  background:linear-gradient(155deg,#0B2545 0%,#173C77 38%,#2B579A 68%,#1B4489 100%)}
+.masthead::before{content:"";position:absolute;inset:0;opacity:.35;
+  background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px);background-size:100% 34px}
+.mh-orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:.5;z-index:0;animation:drift 22s ease-in-out infinite alternate}
+.mh-orb.a{width:420px;height:420px;background:#41A5EE;top:-160px;left:-80px}
+.mh-orb.b{width:360px;height:360px;background:#6B4FBB;bottom:-180px;right:-60px;animation-delay:-8s}
+.mh-orb.c{width:260px;height:260px;background:#0E7C86;top:40%;left:45%;animation-delay:-14s;opacity:.35}
+@keyframes drift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(40px,-30px,0) scale(1.15)}}
+.mh-inner{padding:22px 0 54px}
+.mh-top{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;
+  padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.16)}
+.uni{display:flex;align-items:center;gap:14px}
+.crest{width:54px;height:54px;flex:none;filter:drop-shadow(0 6px 14px rgba(0,0,0,.35))}
+.uni-name{margin:0;font-weight:800;font-size:1.06rem;letter-spacing:.2px}
+.uni-sub{margin:2px 0 0;font-size:.8rem;color:#BBD6F5;font-weight:500}
+.mh-tools{display:flex;gap:8px;align-items:center}
+.chip-btn{display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border-radius:99px;cursor:pointer;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);color:#fff;font-family:var(--ui);
+  font-size:.82rem;font-weight:600;transition:.22s;backdrop-filter:blur(6px)}
+.chip-btn:hover{background:rgba(255,255,255,.22);transform:translateY(-2px)}
+.chip-btn svg{width:17px;height:17px}
+.chip-btn.off{opacity:.6}
+.mh-body{display:grid;grid-template-columns:1.25fr .75fr;gap:44px;align-items:center;padding-top:38px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.badge{display:inline-flex;align-items:center;gap:7px;font-size:.79rem;font-weight:600;padding:7px 13px;border-radius:8px;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#EAF3FF}
+.badge b{font-weight:800;color:#fff}
+.badge.hl{background:linear-gradient(135deg,#F2B33D,#C77700);border-color:#F2B33D;color:#2A1B00}
+.badge.hl b{color:#2A1B00}
+h1.mh-title{margin:0;font-size:clamp(1.65rem,3.6vw,2.85rem);line-height:1.32;font-weight:800;letter-spacing:-.4px}
+h1.mh-title span{display:inline-block;background:linear-gradient(100deg,#9CC9F0,#41A5EE 45%,#F2B33D);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{max-width:60ch;color:#C9DDF6;font-size:1.02rem;margin:16px 0 26px;font-weight:400}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:12px;font-family:var(--ui);
+  font-weight:700;font-size:.95rem;cursor:pointer;border:1px solid transparent;transition:.24s cubic-bezier(.2,.8,.3,1);text-decoration:none}
+.btn svg{width:18px;height:18px}
+.btn-p{background:linear-gradient(135deg,#fff,#DCE9F9);color:#123362;box-shadow:0 14px 30px -14px rgba(0,0,0,.6)}
+.btn-p:hover{transform:translateY(-3px);box-shadow:0 20px 38px -14px rgba(0,0,0,.7)}
+.btn-g{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.35)}
+.btn-g:hover{background:rgba(255,255,255,.2);transform:translateY(-3px)}
+.stats{list-style:none;display:flex;gap:26px;flex-wrap:wrap;margin:34px 0 0;padding:22px 0 0;border-top:1px solid rgba(255,255,255,.16)}
+.stats b{display:block;font-size:1.6rem;font-weight:900;line-height:1;color:#fff}
+.stats span{font-size:.78rem;color:#A9C7EA;font-weight:600}
+/* word window mock */
+.mock{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 40px 80px -30px rgba(0,0,0,.75);
+  transform:perspective(1200px) rotateY(9deg) rotateX(4deg);transition:.6s}
+.mock:hover{transform:perspective(1200px) rotateY(3deg) rotateX(1deg) translateY(-6px)}
+.mock-bar{background:#2B579A;color:#fff;font-size:.72rem;padding:8px 12px;display:flex;align-items:center;gap:8px;font-weight:600}
+.mock-bar i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.55);display:inline-block}
+.mock-tabs{display:flex;gap:2px;background:#F3F2F1;padding:6px 8px 0;border-bottom:1px solid #E1DFDD}
+.mock-tabs span{font-size:.66rem;color:#4A4948;padding:5px 9px;border-radius:6px 6px 0 0;font-weight:700}
+.mock-tabs span.on{background:#fff;color:#2B579A;box-shadow:0 -2px 0 #2B579A inset}
+.mock-rib{display:flex;gap:6px;padding:10px;background:#fff;border-bottom:1px solid #E1DFDD}
+.mock-rib i{height:26px;border-radius:5px;background:linear-gradient(180deg,#E4EEF9,#CDDFF4);display:block}
+.mock-doc{padding:16px;background:#F7F8FB;min-height:170px}
+.mock-page{background:#fff;border:1px solid #E1DFDD;border-radius:4px;padding:14px;box-shadow:0 6px 18px -12px rgba(0,0,0,.4)}
+.mock-line{height:7px;border-radius:99px;background:#DDE4EE;margin-bottom:8px;animation:type 4.5s ease-in-out infinite}
+.mock-line.t{height:11px;width:62%;background:linear-gradient(90deg,#2B579A,#41A5EE)}
+.mock-line:nth-child(3){width:94%;animation-delay:.4s}
+.mock-line:nth-child(4){width:88%;animation-delay:.8s}
+.mock-line:nth-child(5){width:70%;animation-delay:1.2s}
+.mock-caret{width:2px;height:12px;background:#2B579A;display:inline-block;animation:blink 1s steps(2) infinite;vertical-align:-2px}
+@keyframes type{0%,100%{opacity:.45}50%{opacity:1}}
+@keyframes blink{50%{opacity:0}}
+/* ============ 3. NAV DOCK ============ */
+.dock{position:sticky;top:0;z-index:60;background:color-mix(in srgb,var(--surface) 88%,transparent);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--line);box-shadow:0 6px 24px -20px rgba(11,37,69,.9)}
+.dock-in{display:flex;align-items:center;gap:8px;height:var(--nav-h)}
+.dock-brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:.9rem;color:var(--ink);margin-inline-end:14px}
+.dock-brand .w{width:28px;height:28px;border-radius:7px;display:grid;place-items:center;color:#fff;font-weight:900;
+  background:linear-gradient(140deg,#41A5EE,#2B579A 55%,#123362);box-shadow:0 6px 14px -6px rgba(43,87,154,.9);font-size:.9rem}
+.dock a.nl{padding:8px 14px;border-radius:9px;color:var(--ink-2);text-decoration:none;font-weight:600;font-size:.87rem;transition:.2s;position:relative}
+.dock a.nl:hover{color:var(--w-600);background:var(--w-100)}
+.dock a.nl.on{color:#fff;background:linear-gradient(135deg,var(--w-600),var(--w-800));box-shadow:0 8px 18px -10px var(--w-700)}
+.dock .spacer{flex:1}
+.dock .mini-cta{padding:9px 16px;border-radius:9px;font-weight:700;font-size:.84rem;text-decoration:none;color:#3A2600;
+  background:linear-gradient(135deg,#F2B33D,#DE9412);box-shadow:0 8px 18px -10px rgba(199,119,0,.9);transition:.2s}
+.dock .mini-cta:hover{transform:translateY(-2px)}
+.progress-line{position:fixed;top:0;right:0;height:3px;z-index:80;width:0;
+  background:linear-gradient(90deg,#41A5EE,#2B579A,#6B4FBB);box-shadow:0 0 12px rgba(65,165,238,.8);transition:width .1s linear}
+/* ============ 4. SECTIONS ============ */
+.section{padding:74px 0;position:relative;z-index:2}
+.sec-head{max-width:74ch;margin-bottom:34px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.76rem;font-weight:800;letter-spacing:.6px;
+  color:var(--w-700);background:var(--w-100);border:1px solid color-mix(in srgb,var(--w-400) 40%,transparent);
+  padding:6px 12px;border-radius:99px;margin-bottom:14px}
+[data-theme="dark"] .eyebrow{color:var(--w-300)}
+.eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--w-500);box-shadow:0 0 0 4px color-mix(in srgb,var(--w-500) 25%,transparent)}
+h2.sec-t{font-size:clamp(1.4rem,2.7vw,2.1rem);margin:0 0 12px;font-weight:800;letter-spacing:-.3px;line-height:1.35}
+h2.sec-t em{font-style:normal;color:var(--w-600)}
+[data-theme="dark"] h2.sec-t em{color:var(--w-300)}
+.sec-p{margin:0;color:var(--ink-2);font-size:1rem;max-width:70ch}
+/* ============ 5. APP / RIBBON ============ */
+.app{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);box-shadow:var(--sh-2);overflow:hidden}
+.app-bar{display:flex;align-items:center;gap:12px;padding:11px 16px;color:#fff;
+  background:linear-gradient(100deg,var(--w-800),var(--w-600) 60%,var(--w-700))}
+.app-bar .dots{display:flex;gap:6px}
+.app-bar .dots i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.45)}
+.app-bar .fname{font-size:.83rem;font-weight:700;letter-spacing:.2px}
+.app-bar .autos{margin-inline-start:auto;display:flex;gap:8px;align-items:center;font-size:.74rem;color:#CFE2F8;font-weight:600}
+.pill{padding:4px 10px;border-radius:99px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.24)}
+.tabs{display:flex;gap:2px;padding:8px 12px 0;background:var(--surface-2);border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{position:relative;flex:none;padding:10px 18px;border:0;background:transparent;cursor:pointer;font-family:var(--ui);
+  font-size:.88rem;font-weight:700;color:var(--ink-2);border-radius:10px 10px 0 0;transition:.2s;white-space:nowrap;display:flex;align-items:center;gap:8px}
+.tab:hover{background:color-mix(in srgb,var(--surface) 70%,transparent);color:var(--ink)}
+.tab .dt{width:8px;height:8px;border-radius:50%;background:var(--tc);box-shadow:0 0 0 3px color-mix(in srgb,var(--tc) 20%,transparent)}
+.tab.on{background:var(--surface);color:var(--tab);box-shadow:0 -3px 0 var(--tab) inset,0 -6px 18px -12px var(--tab)}
+.tab.on::after{content:"";position:absolute;inset-inline:0;bottom:-1px;height:2px;background:var(--surface)}
+.tab small{font-weight:600;opacity:.6;font-size:.72rem}
+.ribbon{background:var(--surface);border-bottom:1px solid var(--line);position:relative}
+.ribbon::after{content:"";position:absolute;inset-inline:0;top:0;height:3px;
+  background:linear-gradient(90deg,transparent,var(--tab),transparent);opacity:.28}
+.groups{display:flex;align-items:stretch;gap:0;padding:12px 8px 6px;overflow-x:auto;animation:fadeSlide .34s cubic-bezier(.2,.8,.3,1)}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.groups::-webkit-scrollbar{height:9px}
+.groups::-webkit-scrollbar-track{background:var(--surface-2);border-radius:99px}
+.groups::-webkit-scrollbar-thumb{background:linear-gradient(90deg,var(--tab),var(--tab-2));border:2px solid var(--surface-2);border-radius:99px}
+.grp{display:flex;flex-direction:column;justify-content:space-between;padding:0 12px;border-inline-end:1px solid var(--line);flex:none}
+.grp:last-child{border:0}
+.grp-tools{display:flex;flex-wrap:wrap;align-content:flex-start;gap:3px;max-width:var(--gw,none)}
+.grp-lbl{text-align:center;font-size:.68rem;color:var(--ink-3);font-weight:700;padding-top:8px;letter-spacing:.2px}
+.tool{display:inline-flex;align-items:center;gap:6px;padding:6px 8px;min-width:32px;min-height:32px;border-radius:7px;
+  border:1px solid transparent;background:transparent;cursor:pointer;color:var(--ink-2);font-family:var(--ui);
+  font-size:.78rem;font-weight:600;transition:transform .14s,background .16s,color .16s,box-shadow .16s;position:relative}
+.tool svg{width:19px;height:19px;flex:none}
+.tool .gl{font-size:15px;line-height:1;font-weight:800;min-width:19px;text-align:center;font-family:'Cairo',var(--ui)}
+.tool:hover{background:color-mix(in srgb,var(--tab) 12%,transparent);color:var(--tab);border-color:color-mix(in srgb,var(--tab) 28%,transparent);transform:translateY(-1px)}
+.tool:active{transform:scale(.94)}
+.tool.act{background:color-mix(in srgb,var(--tab) 18%,transparent);color:var(--tab);border-color:color-mix(in srgb,var(--tab) 45%,transparent);
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--tab) 22%,transparent) inset}
+.tool.big{flex-direction:column;width:70px;padding:7px 4px;text-align:center;gap:4px}
+.tool.big svg{width:24px;height:24px}
+.tool.big span.lb{font-size:.68rem;line-height:1.2}
+.tool.lbl{padding-inline-end:10px}
+.gl.b{font-weight:900}
+.gl.i{font-style:italic;font-family:'Amiri',serif}
+.gl.u{text-decoration:underline}
+.gl.s{text-decoration:line-through}
+.stylechip{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:86px;padding:5px 8px;border:1px solid var(--line);
+  border-radius:7px;background:var(--surface-3);cursor:pointer;transition:.16s}
+.stylechip:hover{border-color:var(--tab);background:color-mix(in srgb,var(--tab) 9%,transparent);transform:translateY(-2px)}
+.stylechip b{font-size:.82rem;color:var(--ink);line-height:1.2}
+.stylechip i{font-style:normal;font-size:.62rem;color:var(--ink-3)}
+.stylechip.h1 b{color:var(--w-700);font-size:.95rem}
+.stylechip.h2 b{color:var(--w-600);font-size:.87rem}
+.stylechip.ti b{font-size:1rem;font-weight:900;letter-spacing:-.3px}
+.stylechip.qu b{font-style:italic;color:var(--ink-2);border-inline-start:3px solid var(--line-2);padding-inline-start:6px}
+.stylechip.act{border-color:var(--tab);background:color-mix(in srgb,var(--tab) 14%,transparent);box-shadow:0 0 0 1px var(--tab) inset}
+.stylechip.act b{color:var(--tab)}
+.tool.lbl .lb{font-size:.75rem;white-space:nowrap}
+.tool.big .lb{font-size:.68rem;white-space:nowrap}
+/* status bar */
+.statusbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:9px 14px;background:var(--surface);
+  border-bottom:1px solid var(--line);font-size:.74rem;font-weight:700;color:var(--ink-3)}
+.statusbar .sb-lbl{display:inline-flex;align-items:center;gap:7px;color:var(--ink-2)}
+.statusbar .sb-lbl svg{width:15px;height:15px;color:var(--tab)}
+.fchip{display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;background:color-mix(in srgb,var(--tab) 12%,transparent);
+  color:var(--tab);border:1px solid color-mix(in srgb,var(--tab) 26%,transparent);font-size:.7rem;font-weight:800;animation:fadeSlide .25s}
+.sb-sep{width:1px;height:16px;background:var(--line)}
+.sb-page{margin-inline-start:auto;display:flex;gap:6px;flex-wrap:wrap}
+.sb-page span{background:var(--surface-2);border:1px solid var(--line);border-radius:7px;padding:3px 8px;font-size:.69rem}
+/* workspace */
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:0;background:var(--surface-2)}
+.doc-col{display:flex;flex-direction:column;min-width:0;border-inline-end:1px solid var(--line)}
+.doc-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:9px 14px;background:var(--surface);border-bottom:1px solid var(--line)}
+.tb-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:8px;border:1px solid var(--line);
+  background:var(--surface-3);color:var(--ink-2);font-family:var(--ui);font-size:.76rem;font-weight:700;cursor:pointer;transition:.18s}
+.tb-btn svg{width:15px;height:15px}
+.tb-btn:hover{border-color:var(--w-500);color:var(--w-600);background:var(--w-100);transform:translateY(-1px)}
+.tb-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.tb-btn.on{background:var(--w-600);color:#fff;border-color:var(--w-700)}
+.zoom-wrap{display:flex;align-items:center;gap:8px;margin-inline-start:auto;font-size:.74rem;font-weight:700;color:var(--ink-3)}
+input[type=range]{-webkit-appearance:none;appearance:none;width:110px;height:5px;border-radius:99px;background:var(--line-2);outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;cursor:pointer;
+  background:linear-gradient(140deg,var(--w-400),var(--w-700));border:2px solid #fff;box-shadow:0 2px 6px rgba(11,37,69,.5)}
+input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;cursor:pointer;border:2px solid #fff;
+  background:var(--w-600);box-shadow:0 2px 6px rgba(11,37,69,.5)}
+.stage{padding:24px;display:flex;justify-content:center;overflow:auto;max-height:640px;
+  background:repeating-linear-gradient(45deg,transparent,transparent 12px,rgba(43,87,154,.03) 12px,rgba(43,87,154,.03) 24px),var(--surface-2)}
+.stage::-webkit-scrollbar{width:11px;height:11px}
+.stage::-webkit-scrollbar-track{background:var(--surface-2)}
+.stage::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--w-400),var(--w-700));border:3px solid var(--surface-2);border-radius:99px}
+.paper-holder{transform-origin:top center;transition:transform .25s cubic-bezier(.2,.8,.3,1)}
+.paper{position:relative;background:#fff;color:#1B1A19;width:520px;max-width:100%;min-height:600px;box-shadow:0 18px 44px -22px rgba(11,37,69,.7),0 0 0 1px rgba(11,37,69,.08);
+  transition:padding .3s,width .3s,background .3s;font-family:'Amiri','Tajawal',serif;font-size:14px;line-height:1.9;overflow:hidden}
+.paper.land{width:660px;min-height:470px}
+.paper.bordered{outline:3px double var(--pgAccent,#2B579A);outline-offset:-14px}
+.paper .wm{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;z-index:0}
+.paper .wm span{font-size:44px;font-weight:900;color:rgba(43,87,154,.10);transform:rotate(-32deg);letter-spacing:4px;font-family:'Cairo',sans-serif}
+.paper .grid-ov{position:absolute;inset:0;pointer-events:none;z-index:1;
+  background-image:linear-gradient(rgba(43,87,154,.11) 1px,transparent 1px),linear-gradient(90deg,rgba(43,87,154,.11) 1px,transparent 1px);background-size:24px 24px}
+.paper .ruler{position:absolute;top:0;inset-inline:0;height:16px;background:#F3F2F1;border-bottom:1px solid #E1DFDD;z-index:3;
+  background-image:repeating-linear-gradient(90deg,#C8C6C4 0 1px,transparent 1px 20px);}
+.paper .hdr,.paper .ftr{font-family:'Tajawal',sans-serif;font-size:10px;color:#797775;display:flex;justify-content:space-between;
+  border-block-end:1px dashed #C8C6C4;padding-bottom:4px;margin-bottom:14px;position:relative;z-index:2}
+.paper .ftr{border-block-end:0;border-block-start:1px dashed #C8C6C4;padding:4px 0 0;margin:14px 0 0;position:absolute;inset-inline:var(--pgPad,48px);bottom:calc(var(--pgPad,48px) - 22px)}
+.doc-body{position:relative;z-index:2}
+.blk{position:relative;padding:2px 4px;margin:0 0 10px;border-radius:4px;transition:background .2s,box-shadow .2s;cursor:pointer;outline:1px dashed transparent}
+.blk:hover{background:rgba(65,165,238,.07);outline-color:rgba(65,165,238,.5)}
+.blk.sel{background:rgba(65,165,238,.13);outline:1px dashed #2B579A;box-shadow:0 0 0 3px rgba(65,165,238,.14)}
+.blk.sel::before{content:attr(data-tag);position:absolute;top:-9px;inset-inline-end:4px;font-family:'Tajawal',sans-serif;font-size:8px;font-weight:800;
+  background:#2B579A;color:#fff;padding:1px 6px;border-radius:99px;letter-spacing:.3px}
+.blk.selall{outline:1px dashed #C77700;background:rgba(242,179,61,.12)}
+.blk h1,.blk h2,.blk h3,.blk p{margin:0}
+.blk .sq{ text-decoration:underline wavy #C4314B;text-decoration-thickness:1.5px;text-underline-offset:3px}
+.blk mark.found{background:#F2B33D;color:#2A1B00;border-radius:2px;padding:0 2px}
+.blk .fnm{color:#C4314B;font-weight:700;font-size:.7em;vertical-align:super}
+.blk .cite{color:#0E7C86;font-size:.85em}
+.trk-del{color:#C4314B;text-decoration:line-through}
+.trk-ins{color:#0E7C4A;text-decoration:underline}
+.para-border{border:1px solid #2B579A;padding:8px 10px!important;border-radius:3px}
+.dropcap::first-letter{float:right;font-size:3.1em;line-height:.82;font-weight:700;margin-inline-start:8px;margin-top:4px;color:var(--pgAccent,#2B579A)}
+.pmark::after{content:" ¶";color:#41A5EE;opacity:.85}
+.ic{width:20px;height:20px;flex:none}
+.doc-table{width:100%;border-collapse:collapse;font-family:'Tajawal',sans-serif;font-size:11px;margin:6px 0 12px}
+.doc-table th{background:var(--pgAccent,#2B579A);color:#fff;font-weight:700;padding:6px 8px;border:1px solid rgba(0,0,0,.15)}
+.doc-table td{padding:5px 8px;border:1px solid #C8C6C4;color:#323130}
+.doc-table tr:nth-child(even) td{background:#F7F9FC}
+.ins-box{border:1px solid #C8C6C4;border-radius:4px;padding:10px;margin:0 0 12px;background:#FBFCFE;font-family:'Tajawal',sans-serif;font-size:11px;position:relative}
+.ins-box .tagm{position:absolute;top:-8px;inset-inline-start:8px;background:#0E7C86;color:#fff;font-size:8px;padding:1px 7px;border-radius:99px;font-weight:700}
+.pagebreak{display:flex;align-items:center;gap:8px;color:#797775;font-size:9px;font-family:'Tajawal',sans-serif;margin:14px 0}
+.pagebreak::before,.pagebreak::after{content:"";flex:1;border-top:1px dashed #A9A8A6}
+.toc-box{border:1px solid #E1DFDD;background:#F7F9FC;border-radius:4px;padding:10px 12px;margin-bottom:12px;font-family:'Tajawal',sans-serif;font-size:11px}
+.toc-box b{display:block;color:#2B579A;margin-bottom:6px;font-size:12px}
+.toc-row{display:flex;align-items:baseline;gap:6px;color:#323130;padding:2px 0}
+.toc-row .dts{flex:1;border-bottom:1px dotted #A9A8A6}
+.foot-zone{margin-top:18px;padding-top:6px;border-top:1px solid #A9A8A6;width:55%;font-family:'Tajawal',sans-serif;font-size:9.5px;color:#4A4948}
+.cmt{background:#FFF6E0;border:1px solid #F2B33D;border-inline-start:4px solid #C77700;
+  border-radius:8px;padding:8px 11px;margin:12px 0 0;font-family:'Tajawal',sans-serif;font-size:10px;color:#5A4200;
+  box-shadow:0 6px 14px -10px rgba(0,0,0,.5);position:relative;z-index:2}
+.cmt b{color:#8A5B00}
+.wordart{font-family:'Cairo',sans-serif;font-weight:900;font-size:26px;text-align:center;margin:0 0 14px;
+  background:linear-gradient(100deg,#2B579A,#41A5EE 40%,#B33AA6);-webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:0 2px 0 rgba(0,0,0,.06)}
+.locked{position:absolute;inset:0;z-index:9;background:rgba(11,37,69,.06);display:grid;place-items:center;backdrop-filter:blur(.5px)}
+.locked div{background:#123362;color:#fff;font-family:'Tajawal',sans-serif;font-size:12px;font-weight:700;padding:10px 18px;border-radius:10px;
+  box-shadow:0 14px 30px -14px rgba(0,0,0,.8);display:flex;gap:8px;align-items:center}
+/* inspector */
+.inspector{background:var(--surface);padding:16px;position:sticky;top:calc(var(--nav-h) + 8px);align-self:start;max-height:calc(100vh - var(--nav-h) - 20px);overflow-y:auto}
+.inspector::-webkit-scrollbar{width:9px}
+.inspector::-webkit-scrollbar-track{background:var(--surface-2)}
+.inspector::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--tab),var(--w-800));border:2px solid var(--surface);border-radius:99px}
+.insp-crumb{font-size:.7rem;font-weight:700;color:var(--ink-3);display:flex;gap:6px;align-items:center;margin-bottom:10px}
+.insp-crumb b{color:var(--tab)}
+.insp-head{display:flex;gap:12px;align-items:flex-start;padding-bottom:14px;border-bottom:1px dashed var(--line)}
+.insp-ic{width:46px;height:46px;flex:none;border-radius:12px;display:grid;place-items:center;color:#fff;
+  background:linear-gradient(140deg,var(--tab),color-mix(in srgb,var(--tab) 55%,#000));box-shadow:0 10px 20px -10px var(--tab)}
+.insp-ic svg{width:24px;height:24px}
+.insp-ic .gl{font-size:22px;font-weight:900;font-family:'Cairo',sans-serif}
+.insp-t{margin:0;font-size:1.02rem;font-weight:800;line-height:1.3}
+.insp-en{margin:2px 0 0;font-size:.76rem;color:var(--ink-3);font-weight:600;letter-spacing:.3px;direction:ltr;text-align:right}
+.kbd{display:inline-flex;align-items:center;gap:3px;direction:ltr;font-family:'Cairo',monospace;font-size:.7rem;font-weight:700;
+  background:var(--surface-2);border:1px solid var(--line-2);border-bottom-width:3px;border-radius:6px;padding:3px 8px;color:var(--ink)}
+.insp-body{padding-top:14px;display:flex;flex-direction:column;gap:13px}
+.insp-lbl{font-size:.7rem;font-weight:800;color:var(--ink-3);letter-spacing:.4px;display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.insp-lbl::before{content:"";width:14px;height:2px;border-radius:2px;background:var(--tab)}
+.insp-desc{margin:0;font-size:.87rem;color:var(--ink-2);line-height:1.75}
+.insp-ex{background:linear-gradient(135deg,var(--w-100),color-mix(in srgb,var(--w-100) 40%,var(--surface)));
+  border:1px solid color-mix(in srgb,var(--w-400) 30%,transparent);border-radius:12px;padding:11px 13px;font-size:.82rem;color:var(--ink-2)}
+.insp-ex b{color:var(--w-700)}
+[data-theme="dark"] .insp-ex b{color:var(--w-300)}
+.effect{display:flex;gap:9px;align-items:flex-start;background:color-mix(in srgb,var(--green) 10%,transparent);
+  border:1px solid color-mix(in srgb,var(--green) 35%,transparent);border-radius:12px;padding:10px 12px;font-size:.81rem;color:var(--ink-2)}
+.effect svg{width:17px;height:17px;color:var(--green);flex:none;margin-top:2px}
+.ctl-box{border:1px solid var(--line);border-radius:12px;padding:11px;background:var(--surface-3)}
+.swatches{display:flex;flex-wrap:wrap;gap:6px}
+.sw{width:26px;height:26px;border-radius:7px;border:2px solid rgba(0,0,0,.12);cursor:pointer;transition:.15s;position:relative}
+.sw:hover{transform:scale(1.14) translateY(-2px);box-shadow:0 6px 12px -6px rgba(0,0,0,.6)}
+.sw.on{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--tab)}
+.opt-row{display:flex;flex-wrap:wrap;gap:6px}
+.opt{padding:6px 11px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);
+  font-family:var(--ui);font-size:.76rem;font-weight:700;cursor:pointer;transition:.16s}
+.opt:hover{border-color:var(--tab);color:var(--tab);transform:translateY(-1px)}
+.opt.on{background:var(--tab);color:#fff;border-color:var(--tab)}
+.stepper{display:flex;align-items:center;gap:10px}
+.stepper button{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;
+  font-size:1rem;font-weight:800;color:var(--tab);display:grid;place-items:center;transition:.15s;font-family:var(--ui)}
+.stepper button:hover{background:var(--tab);color:#fff}
+.stepper output{flex:1;text-align:center;font-weight:800;font-size:.9rem;color:var(--ink);background:var(--surface-2);border-radius:8px;padding:4px}
+.tgrid{display:grid;grid-template-columns:repeat(6,18px);gap:3px;direction:ltr;justify-content:center}
+.tgrid i{width:18px;height:18px;border:1px solid var(--line-2);border-radius:3px;background:var(--surface);cursor:pointer;transition:.1s}
+.tgrid i.on{background:color-mix(in srgb,var(--tab) 45%,#fff);border-color:var(--tab)}
+.insp-in{width:100%;padding:8px 11px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink);
+  font-family:var(--ui);font-size:.82rem;outline:none;transition:.16s}
+.insp-in:focus{border-color:var(--tab);box-shadow:0 0 0 3px color-mix(in srgb,var(--tab) 18%,transparent)}
+.insp-empty{text-align:center;color:var(--ink-3);font-size:.85rem;padding:26px 10px}
+.insp-empty svg{width:44px;height:44px;color:var(--line-2);margin-bottom:10px}
+.flash{animation:flash .55s ease}
+@keyframes flash{0%{box-shadow:0 0 0 0 rgba(65,165,238,.65)}100%{box-shadow:0 0 0 16px rgba(65,165,238,0)}}
+/* ============ 6. SHORTCUTS ============ */
+.sc-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:22px}
+.search{position:relative;flex:1;min-width:220px}
+.search svg{position:absolute;inset-inline-start:12px;top:50%;transform:translateY(-50%);width:17px;height:17px;color:var(--ink-3)}
+.search input{width:100%;padding:12px 40px 12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);
+  color:var(--ink);font-family:var(--ui);font-size:.9rem;outline:none;transition:.18s;box-shadow:var(--sh-1)}
+.search input:focus{border-color:var(--w-500);box-shadow:0 0 0 4px color-mix(in srgb,var(--w-500) 16%,transparent)}
+.chip{padding:9px 15px;border-radius:99px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);cursor:pointer;
+  font-family:var(--ui);font-size:.8rem;font-weight:700;transition:.18s;display:inline-flex;align-items:center;gap:7px}
+.chip:hover{transform:translateY(-2px);border-color:var(--w-500);color:var(--w-600)}
+.chip.on{color:#fff;background:linear-gradient(135deg,var(--w-600),var(--w-800));border-color:transparent;box-shadow:0 10px 20px -12px var(--w-700)}
+.chip .cnt{font-size:.68rem;background:rgba(255,255,255,.22);padding:1px 7px;border-radius:99px}
+.chip:not(.on) .cnt{background:var(--surface-2);color:var(--ink-3)}
+.sc-group{margin-bottom:14px;border:1px solid var(--line);border-radius:var(--r-l);background:var(--surface);overflow:hidden;box-shadow:var(--sh-1)}
+.sc-ghead{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;user-select:none;transition:.18s;width:100%;
+  border:0;background:transparent;font-family:var(--ui);text-align:start;color:var(--ink)}
+.sc-ghead:hover{background:var(--surface-2)}
+.sc-ghead .gi{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;color:#fff;flex:none}
+.sc-ghead .gi svg{width:19px;height:19px}
+.sc-ghead b{font-size:.98rem;font-weight:800;flex:1}
+.sc-ghead .n{font-size:.74rem;color:var(--ink-3);font-weight:700}
+.sc-ghead .arw{transition:.28s;color:var(--ink-3)}
+.sc-group.closed .arw{transform:rotate(-90deg)}
+.sc-body{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:10px;padding:0 18px 18px;
+  overflow:hidden;transition:max-height .35s ease,opacity .25s,padding .3s}
+.sc-group.closed .sc-body{max-height:0!important;opacity:0;padding-block:0}
+.kcard{display:flex;align-items:center;gap:11px;padding:11px 13px;border-radius:12px;border:1px solid var(--line);
+  background:var(--surface-3);transition:.2s;position:relative;overflow:hidden}
+.kcard::after{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:3px;background:var(--kc,var(--w-600));opacity:.75}
+.kcard:hover{transform:translateY(-3px);border-color:var(--kc,var(--w-500));box-shadow:0 14px 26px -18px rgba(11,37,69,.9)}
+.kcard .keys{display:flex;gap:4px;direction:ltr;flex:none}
+.kcard .keys span{font-family:'Cairo',monospace;font-size:.72rem;font-weight:800;background:var(--surface);border:1px solid var(--line-2);
+  border-bottom-width:3px;border-radius:6px;padding:3px 7px;color:var(--ink);min-width:26px;text-align:center}
+.kcard .txt b{display:block;font-size:.85rem;font-weight:700;color:var(--ink);line-height:1.35}
+.kcard .txt i{font-style:normal;font-size:.68rem;color:var(--ink-3);direction:ltr;display:block;text-align:start}
+.no-res{text-align:center;padding:40px;color:var(--ink-3);font-weight:600}
+/* ============ 7. QUIZ ============ */
+.quiz-wrap{display:grid;grid-template-columns:1fr 300px;gap:22px;align-items:start}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);box-shadow:var(--sh-2);overflow:hidden}
+.qtop{padding:16px 22px;background:linear-gradient(100deg,var(--w-800),var(--w-600));color:#fff;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.qtop b{font-size:.95rem;font-weight:800}
+.qbar{flex:1;min-width:120px;height:7px;border-radius:99px;background:rgba(255,255,255,.22);overflow:hidden}
+.qbar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#F2B33D,#3ECF8E);transition:width .5s cubic-bezier(.2,.8,.3,1)}
+.qscore{font-size:.8rem;font-weight:800;background:rgba(255,255,255,.16);padding:5px 12px;border-radius:99px;border:1px solid rgba(255,255,255,.25)}
+.qbody{padding:26px 24px}
+.qdots{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+.qdot{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:var(--surface-3);color:var(--ink-3);
+  font-family:var(--ui);font-weight:800;font-size:.78rem;cursor:pointer;transition:.18s;display:grid;place-items:center}
+.qdot:hover{transform:translateY(-2px);border-color:var(--w-500)}
+.qdot.cur{background:var(--w-600);color:#fff;border-color:var(--w-700);box-shadow:0 8px 16px -8px var(--w-700)}
+.qdot.ok{background:color-mix(in srgb,var(--green) 18%,transparent);color:var(--green);border-color:var(--green)}
+.qdot.no{background:color-mix(in srgb,var(--red) 16%,transparent);color:var(--red);border-color:var(--red)}
+.qtext{font-size:1.12rem;font-weight:800;line-height:1.7;margin:0 0 6px}
+.qhint{font-size:.8rem;color:var(--ink-3);margin:0 0 18px;font-weight:600}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt-b{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;border:1.5px solid var(--line);
+  background:var(--surface-3);cursor:pointer;font-family:var(--ui);font-size:.94rem;font-weight:600;color:var(--ink);
+  text-align:start;transition:.2s cubic-bezier(.2,.8,.3,1);width:100%}
+.opt-b .ltr{width:30px;height:30px;flex:none;border-radius:9px;display:grid;place-items:center;font-weight:900;font-size:.85rem;
+  background:var(--surface);border:1px solid var(--line-2);color:var(--ink-2);transition:.2s}
+.opt-b:hover:not(:disabled){transform:translateX(-4px);border-color:var(--w-500);background:var(--w-100);box-shadow:0 12px 24px -18px var(--w-700)}
+.opt-b:disabled{cursor:default}
+.opt-b.right{border-color:var(--green);background:color-mix(in srgb,var(--green) 12%,transparent);color:var(--ink)}
+.opt-b.right .ltr{background:var(--green);color:#fff;border-color:var(--green)}
+.opt-b.wrong{border-color:var(--red);background:color-mix(in srgb,var(--red) 10%,transparent)}
+.opt-b.wrong .ltr{background:var(--red);color:#fff;border-color:var(--red)}
+.opt-b .mk{margin-inline-start:auto;font-size:1.1rem;font-weight:900;opacity:0;transition:.2s}
+.opt-b.right .mk,.opt-b.wrong .mk{opacity:1}
+.opt-b.right .mk{color:var(--green)}
+.opt-b.wrong .mk{color:var(--red)}
+.why{margin-top:16px;border-radius:14px;padding:14px 16px;font-size:.88rem;line-height:1.75;display:none;animation:fadeSlide .35s}
+.why.show{display:block}
+.why.good{background:color-mix(in srgb,var(--green) 11%,transparent);border:1px solid color-mix(in srgb,var(--green) 38%,transparent)}
+.why.bad{background:color-mix(in srgb,var(--red) 9%,transparent);border:1px solid color-mix(in srgb,var(--red) 34%,transparent)}
+.why b{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:.92rem}
+.why.good b{color:var(--green)}
+.why.bad b{color:var(--red)}
+.qnav{display:flex;gap:10px;align-items:center;padding:16px 24px;border-top:1px solid var(--line);background:var(--surface-2);flex-wrap:wrap}
+.qbtn{padding:11px 20px;border-radius:11px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);
+  font-family:var(--ui);font-weight:800;font-size:.86rem;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+.qbtn svg{width:16px;height:16px}
+.qbtn:hover:not(:disabled){transform:translateY(-2px);border-color:var(--w-500);color:var(--w-600)}
+.qbtn:disabled{opacity:.42;cursor:not-allowed}
+.qbtn.pri{background:linear-gradient(135deg,var(--w-600),var(--w-800));color:#fff;border-color:transparent;box-shadow:0 12px 24px -14px var(--w-700)}
+.qbtn.pri:hover{color:#fff;transform:translateY(-3px)}
+.qbtn.amb{background:linear-gradient(135deg,#F2B33D,#DE9412);color:#3A2600;border-color:transparent}
+.qbtn.amb:hover{color:#3A2600}
+/* results */
+.result{padding:34px 26px;text-align:center;display:none}
+.result.show{display:block;animation:fadeSlide .45s}
+.ring{width:170px;height:170px;margin:0 auto 18px;position:relative}
+.ring svg{transform:rotate(-90deg)}
+.ring .val{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.ring .val b{font-size:2.4rem;font-weight:900;line-height:1;color:var(--w-700)}
+[data-theme="dark"] .ring .val b{color:var(--w-300)}
+.ring .val span{font-size:.78rem;color:var(--ink-3);font-weight:700}
+.res-msg{font-size:1.25rem;font-weight:900;margin:0 0 8px}
+.res-sub{color:var(--ink-2);margin:0 auto 22px;max-width:52ch;font-size:.94rem}
+.res-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.review{margin-top:26px;text-align:start;display:none}
+.review.show{display:block;animation:fadeSlide .4s}
+.rv-item{border:1px solid var(--line);border-inline-start:4px solid var(--red);border-radius:12px;padding:14px;margin-bottom:10px;background:var(--surface-3)}
+.rv-item .q{font-weight:800;font-size:.92rem;margin:0 0 8px}
+.rv-item p{margin:3px 0;font-size:.84rem;color:var(--ink-2)}
+.rv-item .yr{color:var(--red);font-weight:700}
+.rv-item .cr{color:var(--green);font-weight:700}
+.rv-item .ex{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);font-size:.82rem;color:var(--ink-3)}
+.qside{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);padding:20px;box-shadow:var(--sh-1);position:sticky;top:calc(var(--nav-h) + 12px)}
+.qside h3{margin:0 0 12px;font-size:1rem;font-weight:800;display:flex;align-items:center;gap:8px}
+.qside h3 svg{width:18px;height:18px;color:var(--w-600)}
+.qside ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.qside li{display:flex;gap:10px;font-size:.83rem;color:var(--ink-2);line-height:1.6}
+.qside li i{width:22px;height:22px;flex:none;border-radius:7px;background:var(--w-100);color:var(--w-700);display:grid;place-items:center;
+  font-style:normal;font-weight:900;font-size:.72rem}
+[data-theme="dark"] .qside li i{color:var(--w-300)}
+.qstat{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;padding-top:16px;border-top:1px dashed var(--line)}
+.qstat div{background:var(--surface-2);border-radius:11px;padding:10px;text-align:center}
+.qstat b{display:block;font-size:1.3rem;font-weight:900;color:var(--w-700)}
+[data-theme="dark"] .qstat b{color:var(--w-300)}
+.qstat span{font-size:.7rem;color:var(--ink-3);font-weight:700}
+/* ============ 8. FOOTER / TOAST ============ */
+footer.ft{background:linear-gradient(160deg,#0B2545,#123362 60%,#1B4489);color:#C9DDF6;padding:46px 0 26px;position:relative;z-index:2;margin-top:20px}
+.ft-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:30px}
+.ft h4{color:#fff;font-size:.95rem;margin:0 0 12px;font-weight:800}
+.ft p,.ft li{font-size:.84rem;line-height:1.9;margin:0}
+.ft ul{list-style:none;padding:0;margin:0}
+.ft a{color:#9CC9F0;text-decoration:none;transition:.18s}
+.ft a:hover{color:#fff}
+.ft-bot{margin-top:30px;padding-top:18px;border-top:1px solid rgba(255,255,255,.14);display:flex;justify-content:space-between;
+  gap:12px;flex-wrap:wrap;font-size:.78rem;color:#8FB2DC}
+.toasts{position:fixed;inset-block-end:20px;inset-inline-start:20px;z-index:200;display:flex;flex-direction:column;gap:9px;pointer-events:none}
+.toast{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-inline-start:4px solid var(--w-600);
+  border-radius:12px;padding:11px 15px;box-shadow:var(--sh-2);font-size:.84rem;font-weight:700;color:var(--ink);
+  animation:tin .32s cubic-bezier(.2,.8,.3,1);max-width:340px}
+.toast.ok{border-inline-start-color:var(--green)}
+.toast.warn{border-inline-start-color:var(--amber)}
+.toast.err{border-inline-start-color:var(--red)}
+.toast svg{width:17px;height:17px;flex:none;color:var(--w-600)}
+.toast.ok svg{color:var(--green)}.toast.warn svg{color:var(--amber)}.toast.err svg{color:var(--red)}
+.toast.out{animation:tout .3s forwards}
+@keyframes tin{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes tout{to{opacity:0;transform:translateX(-24px)}}
+/* reveal */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.8,.3,1),transform .7s cubic-bezier(.2,.8,.3,1)}
+.rv.in{opacity:1;transform:none}
+/* ============ 9. RESPONSIVE ============ */
+@media (max-width:1080px){
+  .mh-body{grid-template-columns:1fr;gap:30px}
+  .mock{transform:none;max-width:460px}
+  .workspace{grid-template-columns:1fr}
+  .doc-col{border-inline-end:0;border-block-end:1px solid var(--line)}
+  .inspector{position:static;max-height:none;order:-1;border-block-end:1px solid var(--line)}
+  .quiz-wrap{grid-template-columns:1fr}
+  .qside{position:static}
+  .ft-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:680px){
+  .section{padding:52px 0}
+  .mh-inner{padding:16px 0 40px}
+  .stats{gap:18px}
+  .stats b{font-size:1.3rem}
+  .dock-in{overflow-x:auto;scrollbar-width:none}
+  .dock-in::-webkit-scrollbar{display:none}
+  .dock-brand span{display:none}
+  .stage{padding:12px;max-height:520px}
+  .paper{width:min(88vw,420px)}
+  .paper.land{width:min(92vw,470px)}
+  .grp-tools{max-width:none!important}
+  .ft-grid{grid-template-columns:1fr}
+  .qbody{padding:20px 16px}
+  .toasts{inset-inline:14px}
+  .toast{max-width:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="progress-line" id="progLine"></div>
+
+<!-- ============ MASTHEAD ============ -->
+<header class="masthead" id="top">
+  <div class="mh-orb a"></div><div class="mh-orb b"></div><div class="mh-orb c"></div>
+  <div class="wrap mh-inner">
+    <div class="mh-top">
+      <div class="uni">
+        <svg class="crest" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <path d="M32 3 58 13v22c0 14-11 22.5-26 26C17 57.5 6 49 6 35V13z" fill="rgba(255,255,255,.10)" stroke="#9CC9F0" stroke-width="2"/>
+          <path d="M20 24h11c2 0 3 1 3 3v16c0-2-1-3-3-3H20z" fill="#fff" opacity=".92"/>
+          <path d="M44 24H33c-2 0-3 1-3 3v16c0-2 1-3 3-3h11z" fill="#F2B33D"/>
+          <path d="M32 17v-4M26 19l-2-3M38 19l2-3" stroke="#41A5EE" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <p class="uni-name">جامعة الشهيد حمه لخضر – الوادي</p>
+          <p class="uni-sub">كلية الآداب واللغات · قسم العلوم الإنسانية · السنة الجامعية 2025/2026</p>
+        </div>
+      </div>
+      <div class="mh-tools">
+        <button class="chip-btn" id="soundBtn" aria-pressed="true" title="تشغيل / كتم أصوات الواجهة">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path class="wv" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+          <span id="soundLbl">الصوت: مُفعّل</span>
+        </button>
+        <button class="chip-btn" id="themeBtn" title="تبديل الوضع الليلي / النهاري">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 13a8.4 8.4 0 0 1-10 10 8.5 8.5 0 1 1 10-10z"/></svg>
+          <span id="themeLbl">وضع ليلي</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="mh-body">
+      <div class="mh-text">
+        <div class="meta-row">
+          <span class="badge">المستوى: <b>السنة الأولى علوم إنسانية</b></span>
+          <span class="badge">المقياس: <b>الإعلام الآلي</b></span>
+          <span class="badge hl">إعداد وتقديم: <b>د. فاطمة قرزي</b></span>
+        </div>
+        <h1 class="mh-title">الدليل التفاعلي الشامل لواجهة وشريط أدوات <span>برنامج معالج النصوص Microsoft Word</span></h1>
+        <p class="lede">درس تطبيقي ينقلك من الحفظ النظري إلى الفهم البصري: استكشف تبويبات الشريط (Ribbon) ومجموعاته وأدواته، وشاهد أثر كل أداة مباشرةً على مستند مصغّر حيّ، ثم اختبر معلوماتك ذاتياً.</p>
+        <div class="cta-row">
+          <a class="btn btn-p" href="#sim">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9z"/></svg>
+            ابدأ الاستكشاف التفاعلي
+          </a>
+          <a class="btn btn-g" href="#quiz">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 5-6"/><path d="M20 12a8 8 0 1 1-4.6-7.2"/></svg>
+            انتقل إلى التقييم الذاتي
+          </a>
+        </div>
+        <ul class="stats">
+          <li><b>04</b><span>تبويبات رئيسية</span></li>
+          <li><b>+80</b><span>أداة مشروحة</span></li>
+          <li><b>42</b><span>اختصار لوحة المفاتيح</span></li>
+          <li><b>08</b><span>أسئلة تقييم ذاتي</span></li>
+        </ul>
+      </div>
+
+      <aside class="mock" aria-hidden="true">
+        <div class="mock-bar"><i></i><i></i><i></i> المستند1 - Word · تخطيط متوافق مع RTL</div>
+        <div class="mock-tabs"><span class="on">الشريط الرئيسي</span><span>إدراج</span><span>تخطيط</span><span>مراجعة</span></div>
+        <div class="mock-rib"><i style="width:34px"></i><i style="width:22px"></i><i style="width:22px"></i><i style="width:56px"></i><i style="width:22px"></i><i style="width:40px"></i><i style="width:22px"></i></div>
+        <div class="mock-doc"><div class="mock-page">
+          <div class="mock-line t"></div>
+          <div class="mock-line"></div><div class="mock-line"></div><div class="mock-line"></div>
+          <div class="mock-line" style="width:40%"><span class="mock-caret"></span></div>
+        </div></div>
+      </aside>
+    </div>
+  </div>
+</header>
+
+<!-- ============ NAV ============ -->
+<nav class="dock" id="dock">
+  <div class="wrap dock-in">
+    <div class="dock-brand"><span class="w">W</span><span>دليل Word التفاعلي</span></div>
+    <a class="nl on" href="#sim" data-spy="sim">محاكي الشريط</a>
+    <a class="nl" href="#keys" data-spy="keys">الاختصارات</a>
+    <a class="nl" href="#quiz" data-spy="quiz">التقييم الذاتي</a>
+    <span class="spacer"></span>
+    <a class="mini-cta" href="#quiz">ابدأ الاختبار</a>
+  </div>
+</nav>
+
+<main>
+<!-- ============ SIMULATOR ============ -->
+<section class="section" id="sim">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">المحور الأول · التطبيق المباشر</span>
+      <h2 class="sec-t">محاكي <em>شريط الأدوات (Ribbon)</em> مع معاينة حية للمستند</h2>
+      <p class="sec-p">انقر على أي تبويب لاستعراض مجموعاته، ثم مرّر أو انقر على أي أداة لتظهر بطاقتها التعليمية في لوحة الفحص (Inspector) على اليسار، وشاهد أثرها الفعلي على المستند المصغّر. يمكنك أيضاً النقر على أي فقرة داخل المستند لتحديدها قبل تطبيق التنسيق.</p>
+    </div>
+
+    <div class="app rv">
+      <div class="app-bar">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span class="fname">المستند1 — عرض تعليمي تفاعلي</span>
+        <span class="autos"><span class="pill" id="pillTab">الشريط الرئيسي</span><span class="pill" id="pillTool">لم تُحدَّد أداة</span></span>
+      </div>
+
+      <div class="tabs" id="tabs" role="tablist" aria-label="تبويبات شريط الأدوات"></div>
+      <div class="ribbon"><div class="groups" id="groups"></div></div>
+      <div class="statusbar" id="statusBar"></div>
+
+      <div class="workspace">
+        <div class="doc-col">
+          <div class="doc-toolbar">
+            <button class="tb-btn" id="undoBtn" title="تراجع (Ctrl+Z)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12H8"/></svg>تراجع</button>
+            <button class="tb-btn" id="redoBtn" title="إعادة (Ctrl+Y)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m15 14 5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h6"/></svg>إعادة</button>
+            <button class="tb-btn" id="rulerBtn" title="إظهار/إخفاء المسطرة">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="8" width="20" height="8" rx="1.5"/><path d="M6 8v3M10 8v4M14 8v3M18 8v4"/></svg>المسطرة</button>
+            <button class="tb-btn" id="gridBtn" title="إظهار/إخفاء خطوط الشبكة">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>الشبكة</button>
+            <button class="tb-btn" id="exportBtn" title="تنزيل المستند المصغّر كملف HTML">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 20h16"/></svg>تصدير</button>
+            <button class="tb-btn" id="resetDoc" title="إعادة المستند إلى حالته الأصلية">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>إعادة تعيين</button>
+            <label class="zoom-wrap">تكبير
+              <input type="range" id="zoom" min="60" max="150" step="5" value="100" aria-label="نسبة تكبير المستند">
+              <output id="zoomOut">100%</output>
+            </label>
+          </div>
+          <div class="stage" id="stage"><div class="paper-holder" id="holder"><div class="paper" id="paper"></div></div></div>
+        </div>
+
+        <aside class="inspector" id="inspector" aria-live="polite"></aside>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SHORTCUTS ============ -->
+<section class="section" id="keys">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">المحور الثاني · بطاقات مرجعية سريعة</span>
+      <h2 class="sec-t">أهم <em>اختصارات لوحة المفاتيح</em> في معالج النصوص</h2>
+      <p class="sec-p">مصنّفة حسب الوظيفة، قابلة للتصفية والبحث والطي. حفظ هذه الاختصارات يوفّر أكثر من نصف زمن إنجاز المستند.</p>
+    </div>
+    <div class="sc-tools rv">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4 4"/></svg>
+        <input type="search" id="scSearch" placeholder="ابحث عن اختصار أو وظيفة… مثال: حفظ، Ctrl+B، محاذاة">
+      </div>
+      <div class="opt-row" id="scChips"></div>
+      <button class="chip" id="scToggleAll">طيّ / فتح الكل</button>
+    </div>
+    <div id="scList" class="rv"></div>
+  </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section class="section" id="quiz">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">المحور الثالث · التقييم الذاتي</span>
+      <h2 class="sec-t">اختبر معلوماتك في <em>واجهة وأدوات Word</em></h2>
+      <p class="sec-p">ثمانية أسئلة اختيار من متعدد بتصحيح فوري وتعليل تعليمي لكل سؤال. يمكنك التنقّل بين الأسئلة، ثم مراجعة أخطائك في النهاية.</p>
+    </div>
+
+    <div class="quiz-wrap rv">
+      <div class="qcard">
+        <div class="qtop">
+          <b id="qCounter">السؤال 1 من 8</b>
+          <span class="qbar"><i id="qBarFill"></i></span>
+          <span class="qscore" id="qScorePill">النقاط: 0</span>
+        </div>
+        <div class="qbody" id="qBody">
+          <div class="qdots" id="qDots"></div>
+          <h3 class="qtext" id="qText"></h3>
+          <p class="qhint" id="qHint"></p>
+          <div class="opts" id="qOpts"></div>
+          <div class="why" id="qWhy"></div>
+        </div>
+        <div class="result" id="qResult">
+          <div class="ring">
+            <svg width="170" height="170" viewBox="0 0 170 170">
+              <circle cx="85" cy="85" r="74" fill="none" stroke="var(--line)" stroke-width="13"/>
+              <circle id="ringArc" cx="85" cy="85" r="74" fill="none" stroke="url(#rg)" stroke-width="13" stroke-linecap="round"
+                      stroke-dasharray="465" stroke-dashoffset="465" style="transition:stroke-dashoffset 1s cubic-bezier(.2,.8,.3,1)"/>
+              <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#41A5EE"/><stop offset=".5" stop-color="#2B579A"/><stop offset="1" stop-color="#F2B33D"/></linearGradient></defs>
+            </svg>
+            <div class="val"><b id="ringVal">0/8</b><span>النتيجة النهائية</span></div>
+          </div>
+          <p class="res-msg" id="resMsg"></p>
+          <p class="res-sub" id="resSub"></p>
+          <div class="res-btns">
+            <button class="qbtn pri" id="btnRetry">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>إعادة الاختبار</button>
+            <button class="qbtn amb" id="btnReview">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>مراجعة الأخطاء</button>
+            <button class="qbtn" id="btnBack">العودة إلى الأسئلة</button>
+          </div>
+          <div class="review" id="reviewBox"></div>
+        </div>
+        <div class="qnav" id="qNav">
+          <button class="qbtn" id="btnPrev">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>السابق</button>
+          <button class="qbtn pri" id="btnNext">التالي
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></button>
+          <span style="flex:1"></span>
+          <button class="qbtn" id="btnFinish">إنهاء وعرض النتيجة</button>
+        </div>
+      </div>
+
+      <aside class="qside">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg>تعليمات الاختبار</h3>
+        <ul>
+          <li><i>1</i>اختر إجابة واحدة لكل سؤال؛ التصحيح فوري ولا يمكن تعديل الإجابة بعدها.</li>
+          <li><i>2</i>اقرأ التعليل التعليمي أسفل كل سؤال، فهو جزء من الدرس وليس مجرّد تصحيح.</li>
+          <li><i>3</i>استعمل مربّعات الترقيم أعلى البطاقة للتنقّل بين الأسئلة.</li>
+          <li><i>4</i>عند الإنهاء تظهر نتيجتك مع رسالة تشجيعية وإمكانية مراجعة الأخطاء.</li>
+        </ul>
+        <div class="qstat">
+          <div><b id="stDone">0</b><span>أسئلة مُجابة</span></div>
+          <div><b id="stRight">0</b><span>إجابات صحيحة</span></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="ft">
+  <div class="wrap">
+    <div class="ft-grid">
+      <div>
+        <h4>جامعة الشهيد حمه لخضر – الوادي</h4>
+        <p>كلية الآداب واللغات · قسم العلوم الإنسانية<br>مقياس الإعلام الآلي — السنة الأولى علوم إنسانية<br>درس تفاعلي ضمن سلسلة تبسيط أدوات المكتبية.</p>
+      </div>
+      <div>
+        <h4>محتويات الدرس</h4>
+        <ul>
+          <li><a href="#sim">محاكي شريط الأدوات والمعاينة الحية</a></li>
+          <li><a href="#keys">بطاقات الاختصارات المرجعية</a></li>
+          <li><a href="#quiz">اختبار التقييم الذاتي</a></li>
+          <li><a href="#top">الترويسة الأكاديمية</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>إعداد وتقديم</h4>
+        <p><b style="color:#fff">د. فاطمة قرزي</b><br>أستاذة مقياس الإعلام الآلي<br>قسم العلوم الإنسانية</p>
+      </div>
+    </div>
+    <div class="ft-bot">
+      <span>© 2026 — مورد بيداغوجي رقمي مفتوح للاستعمال التعليمي داخل الجامعة.</span>
+      <span>Microsoft Word علامة تجارية مسجّلة لشركة Microsoft — المحاكاة لأغراض تعليمية فقط.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toasts" id="toasts"></div>
+
+<script>
+/* ==================== 0. HELPERS ==================== */
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>Array.prototype.slice.call(r.querySelectorAll(s));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const AR_LTR=['أ','ب','ج','د'];
+
+/* ==================== 1. ICONS ==================== */
+const ICON={
+paste:'<rect x="5" y="5" width="14" height="16" rx="2"/><rect x="9" y="2.6" width="6" height="4.4" rx="1.4"/><path d="M9 12h6M9 16h4"/>',
+copy:'<rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16.5 5.5H6a2 2 0 0 0-2 2V18"/>',
+cut:'<circle cx="7" cy="18" r="2.4"/><circle cx="17" cy="18" r="2.4"/><path d="M8.6 16 18 4M15.4 16 6 4"/>',
+brush:'<rect x="4" y="4" width="12" height="5" rx="1.2"/><path d="M16 6.5h3.5V12H13v3"/><rect x="10.5" y="15" width="5" height="6" rx="1.4"/>',
+bullets:'<circle cx="19" cy="6.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="19" cy="17.5" r="1.5" fill="currentColor" stroke="none"/><path d="M4 6.5h11M4 12h11M4 17.5h11"/>',
+numlist:'<path d="M4 6.5h11M4 12h11M4 17.5h11"/><path d="M18 4.5v4M16.6 10.6h2.8l-2.8 3.4h3M16.8 16.2h2.6l-1.6 1.9h.4a1.3 1.3 0 1 1-1.2 1.8" stroke-width="1.4"/>',
+multi:'<path d="M4 5.5h7M8 11h8M12 16.5h8"/><path d="M4 11h1M8 16.5h1M4 19.5h4"/>',
+indentR:'<path d="M4 6h16M4 18h16M11 10h9M11 14h9"/><path d="m7 9-3 3 3 3"/>',
+indentL:'<path d="M4 6h16M4 18h16M4 10h9M4 14h9"/><path d="m17 9 3 3-3 3"/>',
+sort:'<path d="M6 4v16M6 20l-3-3M6 20l3-3"/><path d="M13 6h8M13 11h6M13 16h4"/>',
+alignR:'<path d="M4 5.5h16M9 10h11M4 14.5h16M9 19h11"/>',
+alignC:'<path d="M4 5.5h16M6.5 10h11M4 14.5h16M6.5 19h11"/>',
+alignL:'<path d="M4 5.5h16M4 10h11M4 14.5h16M4 19h11"/>',
+alignJ:'<path d="M4 5.5h16M4 10h16M4 14.5h16M4 19h16"/>',
+linespace:'<path d="M10 6h10M10 12h10M10 18h10"/><path d="M5 4v16M5 4 2.8 6.4M5 4l2.2 2.4M5 20l-2.2-2.4M5 20l2.2-2.4"/>',
+bucket:'<path d="M11 3 4 10l7 7 7-7z"/><path d="M19 14c1.2 1.7 2 2.9 2 4a2 2 0 1 1-4 0c0-1.1.8-2.3 2-4z"/>',
+borders:'<rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M3.5 12h17M12 3.5v17"/>',
+find:'<circle cx="11" cy="11" r="6.6"/><path d="m16 16 4.6 4.6"/>',
+replace:'<path d="M4 6h9a4 4 0 0 1 0 8H6"/><path d="m9 17-3-3 3-3"/><path d="M4 19h6"/>',
+selall:'<rect x="3.5" y="3.5" width="17" height="17" rx="2" stroke-dasharray="3 3"/><path d="m9 9 7.5 3.2-3.2 1-1 3.3z"/>',
+page:'<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/>',
+cover:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 3h16v6H4z" fill="currentColor" opacity=".22" stroke="none"/><path d="M8 13h8M8 17h5"/>',
+blank:'<rect x="4.5" y="3" width="15" height="18" rx="2"/><path d="M12 9v6M9 12h6" opacity=".55"/>',
+pbreak:'<path d="M6 3h12v6H6zM6 15h12v6H6z"/><path d="M3 12h18" stroke-dasharray="3 2.5"/>',
+table:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9.3h18M3 14.6h18M9 4v16M15 4v16"/>',
+pic:'<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.4" cy="10" r="1.5"/><path d="m4 17.5 5-4.5 4 3.5 3-2.5 4 3.5"/>',
+shapes:'<rect x="3" y="10" width="10" height="10" rx="1.6"/><circle cx="16" cy="8" r="5"/>',
+star:'<path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1.1 5.9-5.3-2.9-5.3 2.9 1.1-5.9L3.5 9.7l5.9-.8z"/>',
+smart:'<rect x="9" y="2.6" width="6" height="4.4" rx="1.2"/><rect x="2.5" y="15" width="6" height="4.4" rx="1.2"/><rect x="15.5" y="15" width="6" height="4.4" rx="1.2"/><path d="M12 7v4.5M5.5 15v-3.5h13V15"/>',
+chart:'<path d="M3 20h18"/><rect x="4.5" y="11" width="3.4" height="7" rx="1"/><rect x="10.3" y="6" width="3.4" height="12" rx="1"/><rect x="16.1" y="13" width="3.4" height="5" rx="1"/>',
+camera:'<path d="M3 8.5h3.4L8 6.2h8l1.6 2.3H21v10.3H3z" /><circle cx="12" cy="13.4" r="3.4"/>',
+header:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 8.4h16"/><path d="M7.5 5.7h9" stroke-width="2.2"/><path d="M7.5 12h9M7.5 16h6" opacity=".55"/>',
+footer:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 15.6h16"/><path d="M7.5 18.4h9" stroke-width="2.2"/><path d="M7.5 7h9M7.5 11h6" opacity=".55"/>',
+hash:'<path d="M9 4 7 20M17 4l-2 16M4.5 9h15M3.5 15h15"/>',
+textbox:'<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M9 10h6M12 10v5"/>',
+wordart:'<path d="m4 19 5.5-14 5.5 14M6.2 14.4h6.6"/><path d="M17 9.5c2.4-1.6 4.5-.4 4 2l-.8 4c-.3 1.6.4 2.3 1.3 2.3"/>',
+dropcap:'<rect x="3.5" y="4" width="8" height="9" rx="1.4"/><path d="M14 5h6.5M14 9h6.5M14 13h6.5M3.5 17h17M3.5 20.5h13"/>',
+calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M7.5 14h3M13.5 14h3M7.5 17.5h3"/>',
+margins:'<rect x="3" y="3" width="18" height="18" rx="2"/><rect x="7" y="7" width="10" height="10" rx="1" stroke-dasharray="3 2.4"/>',
+orient:'<rect x="2.6" y="4" width="8" height="16" rx="1.5"/><rect x="13" y="9.5" width="8.4" height="10.5" rx="1.5"/>',
+size:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 12h6M9 12l1.8-1.9M9 12l1.8 1.9M15 12l-1.8-1.9M15 12l-1.8 1.9"/>',
+columns:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M12 4v16"/><path d="M5.5 8h4M5.5 11h4M14.5 8h4M14.5 11h4" opacity=".6"/>',
+palette:'<path d="M12 3a9 9 0 1 0 1.2 17.9c1.1-.1 1.5-1.4.8-2.2-.7-.9-.1-2.2 1-2.2H17a4.8 4.8 0 0 0 4.8-4.8C21.8 6.6 17.4 3 12 3z"/><circle cx="7.6" cy="11.6" r="1.2" fill="currentColor" stroke="none"/><circle cx="11" cy="7.6" r="1.2" fill="currentColor" stroke="none"/><circle cx="15.6" cy="9.4" r="1.2" fill="currentColor" stroke="none"/>',
+pagecolor:'<path d="M6 3h9l4 4v14H6z"/><path d="M6 12h13v9H6z" fill="currentColor" opacity=".28" stroke="none"/>',
+watermark:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="m8 15 8-6M8.5 11.5l4-3M11.5 16.5l4-3" opacity=".7"/>',
+pborder:'<rect x="3.5" y="3.5" width="17" height="17" rx="2" stroke-dasharray="4 2.5"/><rect x="7" y="7" width="10" height="10" rx="1"/>',
+toc:'<path d="M4 6h9M4 11h9M4 16h9"/><path d="M17 6h3M17 11h3M17 16h3" stroke-dasharray="1 2"/><path d="M4 20h6" opacity=".5"/>',
+footnote:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M7.5 7h9M7.5 11h9"/><path d="M7.5 15.5h5"/><path d="M7.5 19h3.5"/>',
+book:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20v3H6.5A2.5 2.5 0 0 1 4 20.5z"/>',
+caption:'<rect x="4" y="4" width="16" height="11" rx="1.6"/><path d="m6 13 3.6-3.4 2.8 2.4 2.4-2 3.2 3"/><path d="M7 18.5h10"/>',
+spell:'<path d="m3 15 3.6-9L10 15M4.3 12.2h4.5"/><path d="m13.5 13.6 2.6 2.6 5-5.4"/>',
+comment:'<path d="M20.5 12.2c0 3.7-3.6 6.7-8 6.7-1 0-2-.2-2.9-.5L4 20.5l1.4-3.7A6.6 6.6 0 0 1 3.5 12c0-3.7 3.6-6.7 8-6.7s9 3 9 6.9z"/><path d="M8.5 12h7M8.5 9h4"/>',
+pencil:'<path d="M4 20.2h4L20 8.2l-4-4-12 12z"/><path d="m14.4 5.8 4 4"/>',
+check:'<path d="m5 12.8 4.6 4.6L19 7"/>',
+xcross:'<path d="M6 6 18 18M18 6 6 18"/>',
+compare:'<rect x="2.6" y="4" width="8" height="16" rx="1.6"/><rect x="13.4" y="4" width="8" height="16" rx="1.6"/><path d="M10.6 12h2.8"/>',
+lock:'<rect x="4" y="10" width="16" height="11" rx="2.2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14.5v2.5"/>',
+spacing:'<path d="M4 4h16M4 20h16"/><path d="M8 9h8M8 15h8" opacity=".55"/><path d="M12 7.5v9M12 7.5 10 9.6M12 7.5l2 2.1M12 16.5l-2-2.1M12 16.5l2-2.1"/>',
+quote:'<path d="M9.5 6.5C6.5 7.5 5 10 5 13.5c0 2.5 1.4 4 3.4 4S11.6 16 11.6 14s-1.3-3.2-3-3.2c-.3 0-.6 0-.8.1.3-1.4 1.2-2.4 2.6-3zM19.5 6.5C16.5 7.5 15 10 15 13.5c0 2.5 1.4 4 3.4 4S21.6 16 21.6 14s-1.3-3.2-3-3.2c-.3 0-.6 0-.8.1.3-1.4 1.2-2.4 2.6-3z"/>',
+sigma:'<path d="M17 5H7l6 7-6 7h10"/>',
+eq:'<path d="M4 18c1.6 0 2.2-1 2.6-3l1.6-8c.4-2 1-3 2.6-3"/><path d="M5 11h6"/><path d="m13 10 7 7M20 10l-7 7"/>',
+info:'<circle cx="12" cy="12" r="9"/><path d="M12 16.5v-5M12 7.8h.01"/>',
+sparkle:'<path d="m12 3 1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6z"/><path d="M18.5 16.5 19.4 19l2.5.9-2.5.9-.9 2.5"/>',
+save:'<path d="M5 3h11l3 3v15H5z"/><path d="M8 3v6h7V3M8 21v-6h8v6"/>',
+keyboard:'<rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6 9.5h.01M9.5 9.5h.01M13 9.5h.01M16.5 9.5h.01M6 13h.01M9.5 13h6M18 13h.01"/>',
+eye:'<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>'
+};
+const svgIcon=k=>'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(ICON[k]||'')+'</svg>';
+
+/* ==================== 2. RIBBON DATA ==================== */
+const SW_TEXT=['#1B1A19','#2B579A','#C4314B','#0E7C4A','#C77700','#6B4FBB','#0E7C86','#B33AA6'];
+const SW_HL=['#F2E33D','#8FE38F','#8FD8F5','#F5A9C8','#F5C58F','#DDD6F5'];
+const FONTS=[{l:'Tajawal (تجوال)',v:"'Tajawal',sans-serif"},{l:'Cairo (القاهرة)',v:"'Cairo',sans-serif"},{l:'Amiri (نسخ)',v:"'Amiri',serif"},{l:'Arial',v:"Arial, sans-serif"},{l:'Times New Roman',v:"'Times New Roman',serif"}];
+const THEMES=[{n:'Word الأزرق',a:'#2B579A',b:'#41A5EE'},{n:'أخضر أكاديمي',a:'#0E7C4A',b:'#3ECF8E'},{n:'عنّابي',a:'#8E2A3B',b:'#D1607A'},{n:'بنفسجي',a:'#5B3FA8',b:'#A48BF0'},{n:'رمادي داكن',a:'#3B3A39',b:'#797775'}];
+
+const RIBBON=[
+{id:'home',ar:'الشريط الرئيسي',en:'Home',c:'#2B579A',note:'تبويب التنسيق اليومي: الحافظة، الخط، الفقرة، الأنماط والتحرير.',groups:[
+ {ar:'الحافظة',en:'Clipboard',w:172,tools:[
+  {ar:'لصق',en:'Paste',sc:'Ctrl+V',ic:'paste',big:1,a:'clip:paste',d:'إدراج آخر محتوى مخزَّن في الحافظة عند موضع المؤشر، مع خيارات لصق متعدّدة (الاحتفاظ بالتنسيق أو الدمج أو النص فقط).',ex:'انسخ فقرة من موقع ثم الصقها في بحثك بخيار «الاحتفاظ بتنسيق المصدر».'},
+  {ar:'نسخ',en:'Copy',sc:'Ctrl+C',ic:'copy',a:'clip:copy',d:'وضع نسخة من العنصر المحدَّد في الحافظة مع بقاء الأصل في مكانه.',ex:'انسخ عنوان الفصل لإعادة استعماله في صفحة الغلاف.'},
+  {ar:'قص',en:'Cut',sc:'Ctrl+X',ic:'cut',a:'clip:cut',d:'نقل العنصر المحدَّد إلى الحافظة مع حذفه من موضعه الأصلي.',ex:'انقل فقرة من المقدمة إلى الخاتمة دون إعادة كتابتها.'},
+  {ar:'نسخ التنسيق',en:'Format Painter',sc:'Ctrl+Shift+C',ic:'brush',a:'clip:painter',d:'نسخ تنسيق نص (الخط، الحجم، اللون، المحاذاة) وتطبيقه على نص آخر دون نسخ المحتوى نفسه.',ex:'نسّق عنواناً واحداً ثم انسخ تنسيقه إلى بقية العناوين بنقرة.'}]},
+ {ar:'الخط',en:'Font',w:340,tools:[
+  {ar:'عريض',en:'Bold',sc:'Ctrl+B',gl:'B',gc:'b',a:'bold',d:'زيادة سُمك الحروف لإبراز الكلمات المفتاحية داخل النص.',ex:'إبراز المصطلح: «الإعلام الآلي» داخل الفقرة.'},
+  {ar:'مائل',en:'Italic',sc:'Ctrl+I',gl:'I',gc:'i',a:'italic',d:'إمالة الحروف، ويُستعمل غالباً للعناوين الفرعية والمصطلحات الأجنبية والاقتباسات.',ex:'كتابة اسم مرجع أجنبي مثل Word بشكل مائل.'},
+  {ar:'تسطير',en:'Underline',sc:'Ctrl+U',gl:'U',gc:'u',a:'underline',d:'رسم خط أسفل النص، مفيد للعناوين والروابط.',ex:'تسطير عنوان المحور في المطبوعة.'},
+  {ar:'يتوسطه خط',en:'Strikethrough',gl:'S',gc:'s',a:'strike',d:'رسم خط يمرّ وسط النص للدلالة على الإلغاء أو التصحيح.',ex:'إظهار كلمة ملغاة في مسوّدة قبل حذفها نهائياً.'},
+  {ar:'منخفض',en:'Subscript',sc:'Ctrl+=',gl:'X₂',a:'sub',d:'كتابة رمز أسفل خط النص بحجم مصغّر.',ex:'كتابة الصيغة الكيميائية H₂O.'},
+  {ar:'مرتفع',en:'Superscript',sc:'Ctrl+Shift+=',gl:'X²',a:'sup',d:'كتابة رمز أعلى خط النص بحجم مصغّر، ويُستعمل للأسس وأرقام الحواشي.',ex:'كتابة المساحة بالمتر المربع م² أو رقم الحاشية¹.'},
+  {ar:'لون تمييز النص',en:'Text Highlight Color',gl:'A',gs:'background:linear-gradient(transparent 55%,#F2E33D 55%)',a:'highlight',d:'تلوين خلفية النص كما لو استُعمل قلم تمييز ورقي، لإبراز المقاطع المهمة.',ex:'تمييز التعاريف التي ستُطلب في الامتحان.',opt:{k:'sw',a:'highlight',v:SW_HL}},
+  {ar:'لون الخط',en:'Font Color',gl:'A',gs:'border-bottom:3px solid #C4314B;line-height:1',a:'color',d:'تغيير لون حروف النص المحدَّد من لوحة ألوان كاملة.',ex:'تلوين العناوين بالأزرق الملكي والأرقام بالأحمر.',opt:{k:'sw',a:'color',v:SW_TEXT}},
+  {ar:'نوع الخط',en:'Font',gl:'Aa',a:'font',d:'اختيار عائلة الخط (نسخ، رقعة، لاتيني…) لكل لغة على حدة.',ex:'استعمال خط Amiri للنص العربي و Times New Roman للمراجع الأجنبية.',opt:{k:'list',a:'font',v:FONTS}},
+  {ar:'حجم الخط',en:'Font Size',gl:'12',a:'size',d:'تحديد ارتفاع الحرف بالنقطة (pt). الحجم المعتاد للمتن 12–14 وللعناوين 16–20.',ex:'اجعل العنوان 18 والمتن 13 لتوازن بصري مريح.',opt:{k:'step',a:'size',min:8,max:40,step:1}},
+  {ar:'تكبير الخط',en:'Increase Font Size',sc:'Ctrl+Shift+>',gl:'A↑',a:'font+',d:'زيادة حجم الخط درجة واحدة في كل نقرة.',ex:'تكبير عنوان فرعي ليبرز عن المتن.'},
+  {ar:'تصغير الخط',en:'Decrease Font Size',sc:'Ctrl+Shift+<',gl:'A↓',a:'font-',d:'إنقاص حجم الخط درجة واحدة في كل نقرة.',ex:'تصغير نص الحاشية السفلية إلى 10 نقاط.'},
+  {ar:'تغيير حالة الأحرف',en:'Change Case',sc:'Shift+F3',gl:'Aa',a:'case',d:'تبديل الأحرف اللاتينية بين الكبيرة والصغيرة دون إعادة الكتابة.',ex:'تحويل «university» إلى «UNIVERSITY» في عنوان إنجليزي.'},
+  {ar:'مسح كل التنسيقات',en:'Clear All Formatting',sc:'Ctrl+Space',gl:'A✕',a:'clear',d:'إرجاع النص المحدَّد إلى التنسيق الافتراضي للنمط «عادي».',ex:'تنظيف نص منسوخ من الإنترنت قبل إعادة تنسيقه.'}]},
+ {ar:'الفقرة',en:'Paragraph',w:318,tools:[
+  {ar:'تعداد نقطي',en:'Bullets',ic:'bullets',a:'bullets',d:'تحويل الأسطر إلى قائمة غير مرتّبة تسبقها رموز نقطية.',ex:'سرد أهداف البحث في نقاط غير مرتّبة.'},
+  {ar:'تعداد رقمي',en:'Numbering',ic:'numlist',a:'number',d:'ترقيم عناصر القائمة تسلسلياً (1، 2، 3 أو أ، ب، ج).',ex:'ترقيم خطوات تشغيل برنامج Word.'},
+  {ar:'قائمة متعددة المستويات',en:'Multilevel List',ic:'multi',a:'multilevel',d:'إنشاء قائمة متداخلة بعدّة مستويات، أساس خطة البحث.',ex:'الفصل 1 ← المبحث 1 ← المطلب 1.'},
+  {ar:'إنقاص المسافة البادئة',en:'Decrease Indent',ic:'indentL',a:'indent-',d:'تقريب الفقرة من الهامش الأصلي للصفحة.',ex:'إرجاع فقرة مقتبسة إلى مستوى المتن.'},
+  {ar:'زيادة المسافة البادئة',en:'Increase Indent',sc:'Ctrl+M',ic:'indentR',a:'indent+',d:'إزاحة الفقرة إلى الداخل بمقدار ثابت لإبرازها كاقتباس.',ex:'إزاحة اقتباس طويل عن الهامش كما في المناهج الأكاديمية.'},
+  {ar:'فرز',en:'Sort',ic:'sort',a:'sort',d:'ترتيب أسطر القائمة أو صفوف الجدول تصاعدياً أو تنازلياً.',ex:'ترتيب قائمة أسماء الطلبة ألفبائياً.'},
+  {ar:'إظهار/إخفاء ¶',en:'Show/Hide ¶',sc:'Ctrl+*',gl:'¶',a:'marks',d:'إظهار رموز التنسيق المخفية: نهاية الفقرة، المسافات، علامات الجدولة.',ex:'كشف المسافات المزدوجة الزائدة في المستند.'},
+  {ar:'محاذاة إلى اليمين',en:'Align Right',sc:'Ctrl+R',ic:'alignR',a:'align:right',d:'محاذاة النص مع الهامش الأيمن، وهي المحاذاة الافتراضية للنص العربي.',ex:'العناوين الجانبية في تقرير بالعربية.'},
+  {ar:'توسيط',en:'Center',sc:'Ctrl+E',ic:'alignC',a:'align:center',d:'توسيط النص بين الهامشين.',ex:'توسيط عنوان البحث واسم الجامعة في صفحة الغلاف.'},
+  {ar:'محاذاة إلى اليسار',en:'Align Left',sc:'Ctrl+L',ic:'alignL',a:'align:left',d:'محاذاة النص مع الهامش الأيسر، مناسب للنصوص اللاتينية.',ex:'تنسيق قائمة المراجع الأجنبية.'},
+  {ar:'ضبط',en:'Justify',sc:'Ctrl+J',ic:'alignJ',a:'align:justify',d:'توزيع النص على الهامشين معاً للحصول على حواف مستقيمة من الجانبين.',ex:'ضبط فقرات المذكرة لتبدو كصفحة كتاب مطبوع.'},
+  {ar:'تباعد الأسطر',en:'Line and Paragraph Spacing',ic:'linespace',a:'linespace',d:'التحكم في المسافة الرأسية بين أسطر الفقرة الواحدة.',ex:'اعتماد تباعد 1.5 وهو المعيار في المذكرات الجامعية.',opt:{k:'list',a:'linespace',v:[{l:'مفرد 1.0',v:1.3},{l:'1.15',v:1.6},{l:'1.5',v:2},{l:'مزدوج 2.0',v:2.6}]}},
+  {ar:'تظليل',en:'Shading',ic:'bucket',a:'shading',d:'تلوين خلفية الفقرة أو الخلية لإبرازها.',ex:'تظليل خلية عناوين الجدول بلون رمادي فاتح.',opt:{k:'sw',a:'shading',v:['#FFF3CC','#E4EEF9','#E6F4EA','#FBE3E7','#EFEBFA','لا شيء']}},
+  {ar:'الحدود',en:'Borders',ic:'borders',a:'borders',d:'إضافة إطار حول الفقرة أو النص أو الصفحة بأنماط متعددة.',ex:'تأطير تعريف مهم داخل مربع.'}]},
+ {ar:'الأنماط',en:'Styles',w:300,styleGroup:1,tools:[
+  {ar:'عادي',en:'Normal',a:'style:normal',cls:'',prev:'نص المتن',sub:'المتن الأساسي',d:'النمط الافتراضي لكل نص في المستند، ومنه تُشتق بقية الأنماط.',ex:'اضبط النمط «عادي» مرة واحدة فيتغيّر المستند كله.'},
+  {ar:'عنوان 1',en:'Heading 1',a:'style:h1',cls:'h1',prev:'عنوان 1',sub:'الفصول',d:'نمط عنوان المستوى الأول، وهو الذي يبني جدول المحتويات التلقائي.',ex:'«الفصل الأول: مدخل إلى الإعلام الآلي».'},
+  {ar:'عنوان 2',en:'Heading 2',a:'style:h2',cls:'h2',prev:'عنوان 2',sub:'المباحث',d:'نمط عنوان المستوى الثاني التابع لعنوان 1.',ex:'«المبحث الأول: تعريف الحاسوب».'},
+  {ar:'عنوان رئيسي',en:'Title',a:'style:title',cls:'ti',prev:'عنوان',sub:'صفحة الغلاف',d:'نمط العنوان الرئيسي للمستند ككل، يُستعمل في صفحة الغلاف.',ex:'عنوان المذكرة في الصفحة الأولى.'},
+  {ar:'اقتباس',en:'Quote',a:'style:quote',cls:'qu',prev:'اقتباس',sub:'نص منقول',d:'نمط مخصّص للنصوص المنقولة حرفياً عن مؤلف آخر.',ex:'إدراج تعريف نقلاً عن مرجع مع تمييزه بصرياً.'}]},
+ {ar:'التحرير',en:'Editing',w:170,tools:[
+  {ar:'بحث',en:'Find',sc:'Ctrl+F',ic:'find',a:'find',lbl:1,d:'البحث عن كلمة أو عبارة داخل المستند وإبراز كل مواضع ورودها.',ex:'ابحث عن كلمة «الرقمنة» لتحصي تكرارها في البحث.',opt:{k:'text',a:'find'}},
+  {ar:'استبدال',en:'Replace',sc:'Ctrl+H',ic:'replace',a:'replace',lbl:1,d:'استبدال كلمة بأخرى في المستند كله دفعة واحدة.',ex:'استبدال «الحاسب» بـ «الحاسوب» في كل الصفحات.',opt:{k:'text2',a:'replace'}},
+  {ar:'تحديد الكل',en:'Select',sc:'Ctrl+A',ic:'selall',a:'selectall',lbl:1,d:'تحديد محتوى المستند بالكامل لتطبيق تنسيق موحّد عليه.',ex:'حدّد الكل ثم غيّر الخط إلى Amiri حجم 13.'}]}
+]},
+{id:'insert',ar:'إدراج',en:'Insert',c:'#0E7C86',note:'كل ما يُضاف إلى المستند: صفحات، جداول، صور، رأس وتذييل ورموز.',groups:[
+ {ar:'صفحات',en:'Pages',w:210,tools:[
+  {ar:'صفحة غلاف',en:'Cover Page',ic:'cover',big:1,a:'ins:cover',d:'إدراج صفحة غلاف جاهزة التصميم في بداية المستند تحتوي العنوان والمؤلف والتاريخ.',ex:'غلاف موحّد لكل مذكرات الدفعة.'},
+  {ar:'صفحة فارغة',en:'Blank Page',ic:'blank',lbl:1,a:'ins:blank',d:'إضافة صفحة بيضاء جديدة عند موضع المؤشر.',ex:'فصل الخاتمة في صفحة مستقلة.'},
+  {ar:'فاصل صفحات',en:'Page Break',sc:'Ctrl+Enter',ic:'pbreak',lbl:1,a:'ins:break',d:'إنهاء الصفحة الحالية والانتقال إلى صفحة جديدة دون استعمال مفتاح Enter مراراً.',ex:'بدء كل فصل في صفحة جديدة.'}]},
+ {ar:'جداول',en:'Tables',w:120,tools:[
+  {ar:'جدول',en:'Table',ic:'table',big:1,a:'ins:table',d:'إدراج شبكة من الصفوف والأعمدة لتنظيم البيانات، مع إمكانية تحديد الأبعاد بصرياً.',ex:'جدول يقارن بين أجيال الحاسوب الأربعة.',opt:{k:'tgrid',a:'ins:table'}}]},
+ {ar:'رسومات توضيحية',en:'Illustrations',w:330,tools:[
+  {ar:'صور',en:'Pictures',ic:'pic',lbl:1,a:'ins:pic',d:'إدراج صورة من الجهاز أو من الإنترنت داخل المستند.',ex:'إدراج صورة لواجهة برنامج Word داخل الدرس.'},
+  {ar:'أشكال',en:'Shapes',ic:'shapes',lbl:1,a:'ins:shape',d:'رسم أشكال هندسية وأسهم ومربعات نصية للشرح التخطيطي.',ex:'رسم سهم يربط بين المراحل في مخطط.'},
+  {ar:'أيقونات',en:'Icons',ic:'star',lbl:1,a:'ins:icon',d:'مكتبة أيقونات متجهة قابلة للتلوين دون فقدان الجودة.',ex:'أيقونة قلم بجانب كل ملاحظة منهجية.'},
+  {ar:'SmartArt',en:'SmartArt',ic:'smart',lbl:1,a:'ins:smart',d:'مخططات جاهزة لعرض العلاقات والتسلسلات والقوائم بشكل بصري.',ex:'مخطط هرمي يوضّح مكوّنات الحاسوب.'},
+  {ar:'مخطط بياني',en:'Chart',ic:'chart',lbl:1,a:'ins:chart',d:'إدراج رسم بياني (أعمدة، قطاعات، خطوط) مرتبط بجدول بيانات.',ex:'مخطط أعمدة لنسب استعمال الحاسوب في الجامعة.'},
+  {ar:'لقطة شاشة',en:'Screenshot',ic:'camera',lbl:1,a:'ins:shot',d:'التقاط صورة لنافذة مفتوحة على الحاسوب وإدراجها مباشرة.',ex:'التقاط نافذة إعدادات الصفحة لشرحها في المطبوعة.'}]},
+ {ar:'رأس وتذييل',en:'Header & Footer',w:250,tools:[
+  {ar:'رأس الصفحة',en:'Header',ic:'header',lbl:1,a:'ins:header',d:'منطقة أعلى كل صفحة يتكرّر فيها نص ثابت (عنوان البحث، اسم الجامعة).',ex:'كتابة «جامعة الشهيد حمه لخضر – الوادي» في رأس كل صفحة.'},
+  {ar:'تذييل الصفحة',en:'Footer',ic:'footer',lbl:1,a:'ins:footer',d:'منطقة أسفل كل صفحة للنص المتكرّر كاسم الأستاذ أو السنة الجامعية.',ex:'«مقياس الإعلام الآلي — 2025/2026» أسفل الصفحات.'},
+  {ar:'رقم الصفحة',en:'Page Number',ic:'hash',lbl:1,a:'ins:pagenum',d:'ترقيم تلقائي للصفحات مع اختيار الموضع والصيغة.',ex:'ترقيم صفحات المذكرة أسفل الوسط.'}]},
+ {ar:'نص',en:'Text',w:290,tools:[
+  {ar:'مربع نص',en:'Text Box',ic:'textbox',lbl:1,a:'ins:textbox',d:'إطار نصي مستقل يمكن تحريكه في أي موضع من الصفحة.',ex:'وضع ملاحظة منهجية جانبية بجانب الفقرة.'},
+  {ar:'WordArt',en:'WordArt',ic:'wordart',lbl:1,a:'ins:wordart',d:'نص فني مزخرف بتأثيرات ظل وتدرّج لوني.',ex:'عنوان مطبوعة دعائية لنشاط القسم.'},
+  {ar:'الأحرف الاستهلالية',en:'Drop Cap',ic:'dropcap',lbl:1,a:'ins:dropcap',d:'تكبير أول حرف من الفقرة ليحتل عدة أسطر كما في المجلات.',ex:'بداية أنيقة لمقدمة فصل.'},
+  {ar:'التاريخ والوقت',en:'Date & Time',ic:'calendar',lbl:1,a:'ins:date',d:'إدراج تاريخ اليوم تلقائياً مع إمكانية تحديثه عند كل فتح.',ex:'تاريخ إيداع المذكرة أسفل الغلاف.'}]},
+ {ar:'رموز',en:'Symbols',w:180,tools:[
+  {ar:'معادلة',en:'Equation',sc:'Alt+=',ic:'eq',lbl:1,a:'ins:eq',d:'محرّر معادلات رياضية بالكسور والجذور والأسس.',ex:'كتابة معادلة حساب المعدل الفصلي.'},
+  {ar:'رمز',en:'Symbol',ic:'sigma',lbl:1,a:'ins:sym',d:'إدراج رموز غير موجودة على لوحة المفاتيح.',ex:'إدراج رمز © أو Ω أو ∞ داخل النص.',opt:{k:'list',a:'ins:sym',v:[{l:'© حقوق',v:'©'},{l:'Ω أوميغا',v:'Ω'},{l:'∞ ما لا نهاية',v:'∞'},{l:'§ فقرة',v:'§'},{l:'≠ لا يساوي',v:'≠'},{l:'★ نجمة',v:'★'}]}}]}
+]},
+{id:'layout',ar:'تصميم وتخطيط',en:'Design & Layout',c:'#6B4FBB',note:'مظهر المستند ككل وإعدادات الصفحة: الهوامش، الاتجاه، الحجم، الأعمدة والتباعد.',groups:[
+ {ar:'تنسيق المستند',en:'Document Formatting',w:300,tools:[
+  {ar:'سمات',en:'Themes',ic:'palette',lbl:1,a:'des:theme',d:'مجموعة متناسقة من الألوان والخطوط والتأثيرات تُطبَّق على المستند دفعة واحدة.',ex:'تغيير سمة المذكرة من الأزرق إلى الأخضر بنقرة.',opt:{k:'theme',a:'des:theme',v:THEMES}},
+  {ar:'ألوان',en:'Colors',ic:'pagecolor',lbl:1,a:'des:colors',d:'تبديل لوحة ألوان السمة الحالية مع الحفاظ على الخطوط.',ex:'توحيد لون كل العناوين مع شعار الكلية.',opt:{k:'theme',a:'des:theme',v:THEMES}},
+  {ar:'خطوط',en:'Fonts',ic:'wordart',lbl:1,a:'des:fonts',d:'اختيار ثنائية خط: واحد للعناوين وآخر للمتن على مستوى المستند.',ex:'Cairo للعناوين و Amiri للمتن.',opt:{k:'list',a:'des:fonts',v:FONTS}},
+  {ar:'تباعد الفقرات',en:'Paragraph Spacing',ic:'spacing',lbl:1,a:'des:pspace',d:'ضبط المسافة قبل الفقرة وبعدها لمجموعة الأنماط كلها.',ex:'إضافة 8 نقاط بعد كل فقرة عوض سطر فارغ.',opt:{k:'step',a:'des:pspace',min:0,max:24,step:2}}]},
+ {ar:'خلفية الصفحة',en:'Page Background',w:250,tools:[
+  {ar:'علامة مائية',en:'Watermark',ic:'watermark',lbl:1,a:'des:watermark',d:'نص أو صورة شفافة خلف محتوى الصفحة مثل «مسوّدة» أو «سرّي».',ex:'وضع علامة «مسوّدة» على النسخة الأولى من البحث.'},
+  {ar:'لون الصفحة',en:'Page Color',ic:'pagecolor',lbl:1,a:'des:pagecolor',d:'تلوين خلفية الصفحة، مفيد للمستندات الرقمية لا المطبوعة.',ex:'خلفية عاجية مريحة للقراءة على الشاشة.',opt:{k:'sw',a:'des:pagecolor',v:['#FFFFFF','#FFFDF5','#F3F7FC','#F1F8F3','#FBF2F6','#F6F3FC']}},
+  {ar:'حدود الصفحة',en:'Page Borders',ic:'pborder',lbl:1,a:'des:border',d:'إضافة إطار مزخرف أو خطي يحيط بالصفحة كاملة.',ex:'تأطير صفحة الغلاف بإطار مزدوج.'}]},
+ {ar:'إعداد الصفحة',en:'Page Setup',w:300,tools:[
+  {ar:'الهوامش',en:'Margins',ic:'margins',lbl:1,a:'lay:margin',d:'المسافات البيضاء بين حدود الورقة وبداية النص من الجهات الأربع.',ex:'هامش 2.5 سم من كل الجهات وهو المعيار الجامعي.',opt:{k:'list',a:'lay:margin',v:[{l:'عادية 2.5 سم',v:48},{l:'ضيقة 1.3 سم',v:26},{l:'متوسطة 1.9 سم',v:36},{l:'واسعة 5 سم',v:76}]}},
+  {ar:'الاتجاه',en:'Orientation',ic:'orient',lbl:1,a:'lay:orient',d:'تبديل اتجاه الورقة بين عمودي (Portrait) وأفقي (Landscape).',ex:'صفحة أفقية لجدول عريض أو مخطط كبير.',opt:{k:'list',a:'lay:orient',v:[{l:'عمودي',v:'portrait'},{l:'أفقي',v:'landscape'}]}},
+  {ar:'الحجم',en:'Size',ic:'size',lbl:1,a:'lay:size',d:'اختيار مقاس الورق المناسب للطباعة.',ex:'A4 للطباعة الجامعية و A5 للمطويات.',opt:{k:'list',a:'lay:size',v:[{l:'A4 — 21×29.7',v:'A4'},{l:'Letter — 21.6×27.9',v:'Letter'},{l:'A5 — 14.8×21',v:'A5'}]}},
+  {ar:'الأعمدة',en:'Columns',ic:'columns',lbl:1,a:'lay:columns',d:'تقسيم النص إلى عمودين أو أكثر كما في الصحف والمجلات.',ex:'تنسيق نشرة القسم في عمودين.',opt:{k:'list',a:'lay:columns',v:[{l:'عمود واحد',v:1},{l:'عمودان',v:2},{l:'ثلاثة',v:3}]}}]},
+ {ar:'فقرة',en:'Paragraph',w:180,tools:[
+  {ar:'المسافة البادئة',en:'Indent',ic:'indentR',lbl:1,a:'lay:indent',d:'ضبط دقيق لإزاحة الفقرة عن الهامشين يميناً ويساراً بالسنتيمتر.',ex:'إزاحة الاقتباسات 1 سم من الجانبين.',opt:{k:'step',a:'lay:indent',min:0,max:60,step:6}},
+  {ar:'التباعد',en:'Spacing',ic:'linespace',lbl:1,a:'lay:spacing',d:'تحديد المسافة قبل الفقرة وبعدها بدقة بالنقاط.',ex:'12 نقطة قبل العنوان و6 نقاط بعده.',opt:{k:'step',a:'lay:spacing',min:0,max:24,step:2}}]}
+]},
+{id:'review',ar:'مراجع ومراجعة',en:'References & Review',c:'#C77700',note:'أدوات البحث العلمي: جدول المحتويات، الحواشي، الاستشهادات، التدقيق وتتبع التغييرات.',groups:[
+ {ar:'جدول المحتويات',en:'Table of Contents',w:130,tools:[
+  {ar:'جدول المحتويات',en:'Table of Contents',ic:'toc',big:1,a:'ref:toc',d:'إنشاء فهرس تلقائي للعناوين وأرقام صفحاتها، يتحدّث بنقرة واحدة شرط استعمال أنماط العناوين.',ex:'فهرس مذكرة التخرج يُبنى آلياً من «عنوان 1» و«عنوان 2».'}]},
+ {ar:'الحواشي السفلية',en:'Footnotes',w:150,tools:[
+  {ar:'إدراج حاشية سفلية',en:'Insert Footnote',sc:'Ctrl+Alt+F',ic:'footnote',lbl:1,a:'ref:footnote',d:'إضافة رقم مرجعي في المتن مع مساحة شرح أسفل الصفحة تُرقَّم آلياً.',ex:'توثيق مصدر معلومة أسفل الصفحة مباشرة.'},
+  {ar:'الحاشية التالية',en:'Next Footnote',ic:'find',lbl:1,a:'ref:nextfn',d:'التنقّل بين الحواشي السفلية داخل المستند دون تمرير يدوي.',ex:'مراجعة كل حواشي الفصل قبل الطبع.'}]},
+ {ar:'المراجع والاستشهادات',en:'Citations & Bibliography',w:270,tools:[
+  {ar:'إدراج اقتباس',en:'Insert Citation',ic:'quote',lbl:1,a:'ref:cite',d:'إدراج مرجع داخل المتن وفق نظام توثيق معتمد (APA، MLA…).',ex:'(قرزي، 2026، ص 14) بعد المعلومة المقتبسة.'},
+  {ar:'المراجع',en:'Bibliography',ic:'book',lbl:1,a:'ref:bib',d:'توليد قائمة المراجع المستعملة آلياً في نهاية المستند.',ex:'قائمة مراجع مرتّبة ألفبائياً في آخر المذكرة.'},
+  {ar:'إدراج تسمية توضيحية',en:'Insert Caption',ic:'caption',lbl:1,a:'ref:caption',d:'إضافة تسمية مرقّمة أسفل الجداول والأشكال (الشكل 1، الجدول 2).',ex:'«الجدول 2: نسب استعمال الحاسوب» أسفل الجدول.'}]},
+ {ar:'التدقيق اللغوي',en:'Proofing',w:190,tools:[
+  {ar:'التدقيق الإملائي والنحوي',en:'Spelling & Grammar',sc:'F7',ic:'spell',lbl:1,a:'rev:spell',d:'فحص المستند كلمة كلمة وإبراز الأخطاء بخط أحمر متعرّج (إملاء) أو أزرق (نحو).',ex:'كشف خطأ في كلمة «الأنترنت» قبل تسليم البحث.'},
+  {ar:'عدد الكلمات',en:'Word Count',ic:'info',lbl:1,a:'rev:count',d:'إحصاء الكلمات والحروف والفقرات والأسطر والصفحات.',ex:'التأكد من احترام الحجم المطلوب للبحث.'}]},
+ {ar:'التعليقات',en:'Comments',w:120,tools:[
+  {ar:'تعليق جديد',en:'New Comment',sc:'Ctrl+Alt+M',ic:'comment',lbl:1,a:'rev:comment',d:'إضافة ملاحظة هامشية دون تعديل النص الأصلي، أساس العمل الجماعي.',ex:'ملاحظة الأستاذة على هامش فقرة الطالب.'}]},
+ {ar:'التغييرات',en:'Changes',w:300,tools:[
+  {ar:'تتبع التغييرات',en:'Track Changes',sc:'Ctrl+Shift+E',ic:'pencil',lbl:1,a:'rev:track',d:'تسجيل كل إضافة أو حذف بلون مميز مع اسم صاحبه.',ex:'متابعة تعديلات الأستاذة على مسوّدة الطالب.'},
+  {ar:'قبول',en:'Accept',ic:'check',lbl:1,a:'rev:accept',d:'اعتماد التعديل المقترح ودمجه نهائياً في النص.',ex:'قبول تصحيح لغوي مقترح.'},
+  {ar:'رفض',en:'Reject',ic:'xcross',lbl:1,a:'rev:reject',d:'إلغاء التعديل المقترح والعودة إلى النص الأصلي.',ex:'رفض حذف فقرة يراها الطالب مهمة.'},
+  {ar:'مقارنة',en:'Compare',ic:'compare',lbl:1,a:'rev:compare',d:'مقارنة نسختين من المستند وإبراز الفروق بينهما آلياً.',ex:'مقارنة المسوّدة بالنسخة النهائية.'}]},
+ {ar:'حماية',en:'Protect',w:120,tools:[
+  {ar:'تقييد التحرير',en:'Restrict Editing',ic:'lock',lbl:1,a:'rev:protect',d:'منع التعديل على المستند أو حصره في أجزاء محددة بكلمة مرور.',ex:'حماية النسخة النهائية من التعديل العرضي.'}]}
+]}];
+
+/* ==================== 3. SHORTCUTS DATA ==================== */
+const SC=[
+{id:'file',ar:'الملف والمستند',c:'#2B579A',ic:'save',items:[
+ {k:['Ctrl','N'],ar:'إنشاء مستند جديد',en:'New'},{k:['Ctrl','O'],ar:'فتح مستند موجود',en:'Open'},
+ {k:['Ctrl','S'],ar:'حفظ المستند',en:'Save'},{k:['F12'],ar:'حفظ باسم',en:'Save As'},
+ {k:['Ctrl','P'],ar:'طباعة ومعاينة',en:'Print'},{k:['Ctrl','W'],ar:'إغلاق المستند',en:'Close'}]},
+{id:'edit',ar:'التحرير والحافظة',c:'#0E7C86',ic:'copy',items:[
+ {k:['Ctrl','C'],ar:'نسخ المحدَّد',en:'Copy'},{k:['Ctrl','X'],ar:'قص المحدَّد',en:'Cut'},
+ {k:['Ctrl','V'],ar:'لصق المحتوى',en:'Paste'},{k:['Ctrl','Z'],ar:'التراجع عن آخر إجراء',en:'Undo'},
+ {k:['Ctrl','Y'],ar:'إعادة الإجراء',en:'Redo'},{k:['Ctrl','A'],ar:'تحديد الكل',en:'Select All'},
+ {k:['Ctrl','F'],ar:'بحث',en:'Find'},{k:['Ctrl','H'],ar:'استبدال',en:'Replace'}]},
+{id:'font',ar:'تنسيق الخط',c:'#B33AA6',ic:'sparkle',items:[
+ {k:['Ctrl','B'],ar:'عريض',en:'Bold'},{k:['Ctrl','I'],ar:'مائل',en:'Italic'},{k:['Ctrl','U'],ar:'تسطير',en:'Underline'},
+ {k:['Ctrl','D'],ar:'مربع حوار الخط',en:'Font dialog'},{k:['Ctrl','Shift','>'],ar:'تكبير حجم الخط',en:'Grow font'},
+ {k:['Ctrl','Shift','<'],ar:'تصغير حجم الخط',en:'Shrink font'},{k:['Ctrl','Shift','C'],ar:'نسخ التنسيق',en:'Copy format'},
+ {k:['Ctrl','Shift','V'],ar:'لصق التنسيق',en:'Paste format'},{k:['Ctrl','Space'],ar:'مسح كل التنسيقات',en:'Clear format'}]},
+{id:'para',ar:'الفقرات والمحاذاة',c:'#6B4FBB',ic:'alignR',items:[
+ {k:['Ctrl','E'],ar:'توسيط الفقرة',en:'Center'},{k:['Ctrl','R'],ar:'محاذاة إلى اليمين',en:'Align right'},
+ {k:['Ctrl','L'],ar:'محاذاة إلى اليسار',en:'Align left'},{k:['Ctrl','J'],ar:'ضبط على الهامشين',en:'Justify'},
+ {k:['Ctrl','1'],ar:'تباعد أسطر مفرد',en:'Single spacing'},{k:['Ctrl','2'],ar:'تباعد أسطر مزدوج',en:'Double spacing'},
+ {k:['Ctrl','5'],ar:'تباعد 1.5 سطر',en:'1.5 spacing'},{k:['Ctrl','M'],ar:'زيادة المسافة البادئة',en:'Increase indent'}]},
+{id:'ins',ar:'الإدراج والتنقّل',c:'#0E7C4A',ic:'table',items:[
+ {k:['Ctrl','K'],ar:'إدراج ارتباط تشعبي',en:'Hyperlink'},{k:['Ctrl','Enter'],ar:'فاصل صفحات',en:'Page break'},
+ {k:['Ctrl','Alt','F'],ar:'حاشية سفلية',en:'Footnote'},{k:['Ctrl','Alt','M'],ar:'تعليق جديد',en:'Comment'},
+ {k:['Alt','='],ar:'إدراج معادلة',en:'Equation'},{k:['Shift','F5'],ar:'العودة إلى آخر تعديل',en:'Last edit'}]},
+{id:'rev',ar:'المراجعة والعرض',c:'#C77700',ic:'spell',items:[
+ {k:['F7'],ar:'التدقيق الإملائي والنحوي',en:'Spelling'},{k:['Ctrl','Shift','E'],ar:'تفعيل تتبع التغييرات',en:'Track changes'},
+ {k:['Shift','F7'],ar:'قاموس المرادفات',en:'Thesaurus'},{k:['Ctrl','Alt','P'],ar:'عرض تخطيط الطباعة',en:'Print layout'},
+ {k:['Ctrl','Alt','O'],ar:'عرض المخطط التفصيلي',en:'Outline view'}]}];
+
+/* ==================== 4. QUIZ DATA ==================== */
+const QUIZ=[
+{q:'في أي تبويب نجد أدوات تغيير نوع الخط وحجمه ولونه والمحاذاة؟',hint:'تذكّر: التبويب الذي يُفتح افتراضياً عند تشغيل البرنامج.',
+ o:['تبويب إدراج (Insert)','الشريط الرئيسي (Home)','تبويب مراجعة (Review)','تبويب تخطيط (Layout)'],c:1,
+ why:'الشريط الرئيسي (Home) هو التبويب الافتراضي ويضم مجموعات: الحافظة، الخط، الفقرة، الأنماط والتحرير، أي كل أدوات التنسيق اليومي.'},
+{q:'ما الاختصار الصحيح لحفظ المستند؟',hint:'أكثر اختصار يُنصح باستعماله كل بضع دقائق.',
+ o:['Ctrl + P','Ctrl + V','Ctrl + S','Ctrl + O'],c:2,
+ why:'Ctrl+S للحفظ (Save)، بينما Ctrl+P للطباعة وCtrl+O للفتح وCtrl+V للصق. الحفظ المنتظم يحمي عملك من الانقطاع المفاجئ للتيار.'},
+{q:'لإدراج جدول أو صورة أو رقم صفحة في المستند نستعمل تبويب:',hint:'اسم التبويب يدلّ على وظيفته: إضافة عناصر جديدة.',
+ o:['إدراج (Insert)','تصميم (Design)','مراجع (References)','عرض (View)'],c:0,
+ why:'تبويب إدراج (Insert) مخصّص لإضافة العناصر: الصفحات، الجداول، الرسومات التوضيحية، الرأس والتذييل، النص والرموز.'},
+{q:'ما وظيفة أداة «نسخ التنسيق» (Format Painter)؟',hint:'الأداة على شكل فرشاة في مجموعة الحافظة.',
+ o:['نسخ النص مع محتواه','نقل تنسيق نص إلى نص آخر دون نسخ محتواه','حذف كل التنسيقات','تحويل النص إلى جدول'],c:1,
+ why:'نسخ التنسيق (Ctrl+Shift+C ثم Ctrl+Shift+V) ينقل خصائص التنسيق فقط — الخط والحجم واللون والمحاذاة — من نص منسّق إلى نص آخر، مما يضمن وحدة مظهر المستند.'},
+{q:'لتغيير هوامش الصفحة واتجاهها من عمودي إلى أفقي نلجأ إلى تبويب:',hint:'مجموعة اسمها «إعداد الصفحة» (Page Setup).',
+ o:['الشريط الرئيسي (Home)','إدراج (Insert)','تخطيط (Layout)','مراجع (References)'],c:2,
+ why:'تبويب تخطيط (Layout) يحتوي مجموعة إعداد الصفحة: الهوامش، الاتجاه، الحجم، الأعمدة، إضافة إلى المسافات البادئة والتباعد بين الفقرات.'},
+{q:'ما الاختصار الذي يُدرج حاشية سفلية، وفي أي تبويب توجد الأداة؟',hint:'الحاشية تشرح مصدراً أسفل الصفحة.',
+ o:['Ctrl+Alt+F — تبويب مراجع','Ctrl+F — تبويب الرئيسية','Alt+= — تبويب إدراج','F7 — تبويب مراجعة'],c:0,
+ why:'أداة «إدراج حاشية سفلية» توجد في تبويب مراجع (References) واختصارها Ctrl+Alt+F، وتضع رقماً آلياً في المتن ومساحة للشرح أسفل الصفحة.'},
+{q:'لكي يُبنى جدول المحتويات تلقائياً، ما الشرط الأساسي؟',hint:'فكّر في مجموعة الأنماط (Styles).',
+ o:['تكبير حجم كل العناوين يدوياً','تطبيق أنماط العناوين (Heading 1، Heading 2) على العناوين','ترقيم الصفحات يدوياً','تلوين العناوين بالأزرق'],c:1,
+ why:'جدول المحتويات التلقائي يقرأ الأنماط لا المظهر؛ فأي عنوان طُبِّق عليه النمط Heading 1 أو Heading 2 يظهر في الفهرس ويُحدَّث تلقائياً عند تغيّر أرقام الصفحات.'},
+{q:'عند اشتغال الأستاذة على مسوّدة الطالب، أي أداة تُظهر كل إضافة أو حذف بلون مميز؟',hint:'موجودة في مجموعة «التغييرات». ',
+ o:['التعليقات (Comments)','تتبع التغييرات (Track Changes)','المقارنة (Compare)','تقييد التحرير (Restrict Editing)'],c:1,
+ why:'تتبع التغييرات (Ctrl+Shift+E) في تبويب مراجعة يسجّل كل تعديل بلون واسم صاحبه، ثم يمكن قبوله (Accept) أو رفضه (Reject) تعديلاً تعديلاً.'}];
+/* ==================== 5. SOUND / TOAST / THEME ==================== */
+const Sound={on:true,ctx:null,
+ boot(){if(!this.ctx){try{this.ctx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){this.ctx=null;}}if(this.ctx&&this.ctx.state==='suspended')this.ctx.resume();},
+ tone(f,d,ty,v,dl){if(!this.on)return;this.boot();if(!this.ctx)return;const t=this.ctx.currentTime+(dl||0);
+  const o=this.ctx.createOscillator(),g=this.ctx.createGain();o.type=ty||'sine';o.frequency.setValueAtTime(f,t);
+  g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(v||.05,t+.012);g.gain.exponentialRampToValueAtTime(.0001,t+d);
+  o.connect(g);g.connect(this.ctx.destination);o.start(t);o.stop(t+d+.03);},
+ click(){this.tone(520,.06,'triangle',.045);},
+ apply(){this.tone(660,.09,'sine',.05);this.tone(990,.1,'sine',.03,.055);},
+ tab(){this.tone(380,.06,'square',.025);},
+ good(){[523,659,784].forEach((f,i)=>this.tone(f,.17,'sine',.055,i*.07));},
+ bad(){this.tone(200,.18,'sawtooth',.045);this.tone(150,.22,'sawtooth',.035,.09);},
+ win(){[523,659,784,1046,1318].forEach((f,i)=>this.tone(f,.3,'triangle',.05,i*.12));}
+};
+function toast(msg,kind){
+ const w=$('#toasts');if(!w)return;
+ const ic=kind==='err'?'xcross':kind==='warn'?'info':kind==='ok'?'check':'sparkle';
+ const el=document.createElement('div');el.className='toast '+(kind||'');
+ el.innerHTML=svgIcon(ic)+'<span>'+esc(msg)+'</span>';
+ w.appendChild(el);
+ setTimeout(()=>{el.classList.add('out');setTimeout(()=>el.remove(),320);},2800);
+ while(w.children.length>4)w.removeChild(w.firstChild);
+}
+(function(){
+ const tb=$('#themeBtn'),sb=$('#soundBtn');
+ let dark=false;try{dark=localStorage.getItem('wordGuideTheme')==='dark';}catch(e){}
+ const applyTheme=()=>{document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+  $('#themeLbl').textContent=dark?'وضع نهاري':'وضع ليلي';};
+ applyTheme();
+ tb.addEventListener('click',()=>{dark=!dark;try{localStorage.setItem('wordGuideTheme',dark?'dark':'light');}catch(e){}applyTheme();Sound.click();toast(dark?'تم تفعيل الوضع الليلي':'تم تفعيل الوضع النهاري','ok');});
+ sb.addEventListener('click',()=>{Sound.on=!Sound.on;sb.classList.toggle('off',!Sound.on);sb.setAttribute('aria-pressed',String(Sound.on));
+  $('#soundLbl').textContent=Sound.on?'الصوت: مُفعّل':'الصوت: مكتوم';if(Sound.on){Sound.boot();Sound.apply();}});
+})();
+
+/* ==================== 6. PREVIEW STATE ==================== */
+let uid=0;const nid=()=>'b'+(++uid);
+const DEF=()=>{uid=0;return{
+ blocks:[
+  {id:nid(),type:'text',tag:'title',text:'أثر الرقمنة على المجتمع الجامعي',st:{align:'center'}},
+  {id:nid(),type:'text',tag:'h1',text:'أولاً: مفهوم معالج النصوص',st:{}},
+  {id:nid(),type:'text',tag:'p',st:{},
+   text:'يُعدّ برنامج معالج النصوص من أكثر البرمجيات استعمالاً في الوسط الجامعي، إذ يتيح كتابة التقارير والمذكرات وتنسيقها وإخراجها بشكل احترافي، وتتنظّم أدواته داخل شريط يُسمّى الشريط Ribbon مقسّم إلى تبويبات ومجموعات.',
+   items:['تعريف معالج النصوص ووظائفه','مكوّنات الواجهة الرسومية','أهمّ الاختصارات العملية']},
+  {id:nid(),type:'text',tag:'p',st:{},
+   text:'وتتوزّع الأدوات على تبويبات رئيسية: الشريط الرئيسي للتنسيق اليومي، وإدراج لإضافة العناصر، وتخطيط لإعداد الصفحة، ومراجع ومراجعة لأدوات البحث العلمي والتدقيق اللغوي.',
+   items:['تبويب الشريط الرئيسي','تبويب إدراج','تبويب تخطيط الصفحة','تبويب مراجع ومراجعة']}
+ ],
+ sel:null,selAll:false,
+ page:{margin:48,orient:'portrait',size:'A4',cols:1,color:'#FFFFFF',border:false,wm:false,theme:0,hdr:false,ftr:false,pgnum:false,pspace:10,indent:0,font:null},
+ flags:{marks:false,spell:false,track:false,protect:false,comment:false,compare:false},
+ find:'',clip:null,painter:null,fns:[],fnCur:0
+};};
+let S=DEF();S.sel=S.blocks[2].id;
+const OPT={zoom:100,ruler:true,grid:false};
+const UNDO=[],REDO=[];
+const snap=()=>JSON.stringify({blocks:S.blocks,sel:S.sel,selAll:S.selAll,page:S.page,flags:S.flags,find:S.find,fns:S.fns});
+function push(){UNDO.push(snap());if(UNDO.length>50)UNDO.shift();REDO.length=0;syncUndo();}
+function restore(str){const o=JSON.parse(str);S.blocks=o.blocks;S.sel=o.sel;S.selAll=o.selAll;S.page=o.page;S.flags=o.flags;S.find=o.find;S.fns=o.fns;render();syncUndo();}
+function syncUndo(){$('#undoBtn').disabled=!UNDO.length;$('#redoBtn').disabled=!REDO.length;}
+const selBlock=()=>S.blocks.find(b=>b.id===S.sel)||null;
+function targets(){
+ if(S.selAll)return S.blocks.filter(b=>b.type==='text');
+ const b=selBlock();return b&&b.type==='text'?[b]:[];
+}
+function allText(){return S.blocks.filter(b=>b.type==='text');}
+
+/* ==================== 7. RENDER PAPER ==================== */
+function decorate(b,txt){
+ let h=esc(txt);
+ if(S.flags.spell){const w=h.split(' ');if(w.length>2){w[1]='<span class="sq">'+w[1]+'</span>';if(w[6])w[6]='<span class="sq">'+w[6]+'</span>';h=w.join(' ');}}
+ if(S.find&&S.find.trim()){
+  const t=S.find.trim().replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  try{h=h.replace(new RegExp(t,'g'),m=>'<mark class="found">'+m+'</mark>');}catch(e){}
+ }
+ if(b.cite)h+=' <span class="cite">(قرزي، 2026، ص 14)</span>';
+ if(b.fn)h+='<span class="fnm">'+b.fn+'</span>';
+ return h;
+}
+function textHTML(b){
+ const st=b.st||{},pg=S.page,th=THEMES[pg.theme]||THEMES[0];
+ const base={title:22,h1:17,h2:15,p:14,quote:14}[b.tag]||14;
+ const s=['font-size:'+(st.size||base)+'px','margin-bottom:'+pg.pspace+'px'];
+ if(pg.font&&!st.font)s.push('font-family:'+pg.font);
+ if(b.tag==='title')s.push('font-weight:900','letter-spacing:-.4px');
+ if(b.tag==='h1')s.push('font-weight:800','color:'+th.a);
+ if(b.tag==='h2')s.push('font-weight:700','color:'+th.b);
+ if(b.tag==='quote')s.push('border-inline-start:3px solid '+th.a,'padding-inline-start:10px','color:#4A4948');
+ s.push('text-align:'+(st.align||(b.tag==='title'?'center':'right')));
+ if(st.bold)s.push('font-weight:800');
+ if(st.italic)s.push('font-style:italic');
+ const td=[];if(st.underline)td.push('underline');if(st.strike)td.push('line-through');
+ if(td.length)s.push('text-decoration:'+td.join(' '));
+ if(st.color)s.push('color:'+st.color);
+ if(st.hl)s.push('background:'+st.hl+';padding:0 3px;border-radius:2px');
+ if(st.font)s.push('font-family:'+st.font);
+ if(st.lh)s.push('line-height:'+st.lh);
+ if(st.indent)s.push('padding-inline-start:'+st.indent+'px');
+ if(st.shade)s.push('background:'+st.shade);
+ if(st.upper)s.push('text-transform:uppercase');
+ if(st.script==='sub')s.push('vertical-align:sub','font-size:.78em');
+ if(st.script==='sup')s.push('vertical-align:super','font-size:.78em');
+ const cls=['blk'];
+ if(S.sel===b.id&&!S.selAll)cls.push('sel');
+ if(S.selAll)cls.push('selall');
+ if(st.dropcap)cls.push('dropcap');
+ if(st.border)cls.push('para-border');
+ if(S.flags.marks)cls.push('pmark');
+ const tagMap={title:'h1',h1:'h2',h2:'h3',p:'p',quote:'blockquote'};
+ const tg=tagMap[b.tag]||'p';
+ const lbl={title:'عنوان رئيسي',h1:'عنوان 1',h2:'عنوان 2',p:'فقرة',quote:'اقتباس'}[b.tag]||'فقرة';
+ let inner;
+ if(st.list&&b.items&&b.items.length){
+  const li=b.items.map(x=>'<li>'+decorate(b,x)+'</li>').join('');
+  inner=st.list==='multi'
+   ?'<ul style="list-style:none;padding-inline-start:0;margin:0">'+b.items.map((x,i)=>'<li style="margin-bottom:4px"><b style="color:'+th.a+'">'+(i+1)+'.</b> '+decorate(b,x)+'<ul style="margin:2px 0 0;padding-inline-start:18px;font-size:.92em"><li>'+(i+1)+'.1 عنصر فرعي</li></ul></li>').join('')+'</ul>'
+   :(st.list==='ol'?'<ol style="padding-inline-start:22px;margin:0">'+li+'</ol>':'<ul style="padding-inline-start:20px;margin:0">'+li+'</ul>');
+ }else{
+  inner=decorate(b,b.text);
+ }
+ return '<'+tg+' class="'+cls.join(' ')+'" data-id="'+b.id+'" data-tag="'+lbl+'" style="'+s.join(';')+'">'+inner+'</'+tg+'>';
+}
+function blockHTML(b){
+ const th=THEMES[S.page.theme]||THEMES[0];
+ switch(b.type){
+  case 'text':return textHTML(b);
+  case 'cover':return '<div class="blk" data-id="'+b.id+'" data-tag="صفحة غلاف" style="text-align:center;border:2px solid '+th.a+';padding:26px 14px;margin-bottom:16px;font-family:Tajawal,sans-serif">'
+   +'<div style="font-size:11px;color:#797775">الجمهورية الجزائرية الديمقراطية الشعبية</div>'
+   +'<div style="font-size:13px;font-weight:700;margin:4px 0">جامعة الشهيد حمه لخضر – الوادي</div>'
+   +'<div style="height:2px;width:60px;background:'+th.b+';margin:10px auto"></div>'
+   +'<div style="font-size:19px;font-weight:900;color:'+th.a+';margin:8px 0">أثر الرقمنة على المجتمع الجامعي</div>'
+   +'<div style="font-size:11px;color:#4A4948">مقياس الإعلام الآلي · السنة الأولى علوم إنسانية</div>'
+   +'<div style="font-size:11px;margin-top:10px">إعداد وتقديم: د. فاطمة قرزي</div></div>';
+  case 'table':{
+   let r='';for(let i=0;i<b.rows;i++){r+='<tr>';for(let j=0;j<b.cols;j++){r+=i===0?'<th>العمود '+(j+1)+'</th>':'<td>خلية '+(i)+'-'+(j+1)+'</td>';}r+='</tr>';}
+   return '<table class="doc-table blk" data-id="'+b.id+'" data-tag="جدول"><tbody>'+r+'</tbody></table>';}
+  case 'image':return '<div class="ins-box blk" data-id="'+b.id+'" data-tag="صورة" style="padding:0;overflow:hidden">'
+   +'<div style="height:96px;background:linear-gradient(135deg,'+th.a+','+th.b+');display:grid;place-items:center;color:#fff">'+svgIcon('pic')+'</div>'
+   +'<div style="padding:5px 8px;font-size:9.5px;color:#797775">الشكل 1: واجهة برنامج معالج النصوص</div></div>';
+  case 'shot':return '<div class="ins-box blk" data-id="'+b.id+'" data-tag="لقطة شاشة" style="padding:0;overflow:hidden">'
+   +'<div style="background:#2B579A;color:#fff;font-size:9px;padding:4px 8px;font-family:Tajawal,sans-serif">نافذة مُلتقطة — Word</div>'
+   +'<div style="height:70px;background:repeating-linear-gradient(90deg,#F3F2F1 0 18px,#E9E7E5 18px 36px)"></div></div>';
+  case 'shape':return '<div class="blk" data-id="'+b.id+'" data-tag="شكل" style="margin-bottom:12px"><svg width="100%" height="70" viewBox="0 0 300 70">'
+   +'<rect x="6" y="14" width="90" height="42" rx="6" fill="'+th.a+'" opacity=".9"/><text x="51" y="40" fill="#fff" font-size="12" text-anchor="middle" font-family="Tajawal">إدخال</text>'
+   +'<path d="M100 35h34" stroke="'+th.b+'" stroke-width="2" marker-end="url(#ah)"/><defs><marker id="ah" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 7 3.5 0 7z" fill="'+th.b+'"/></marker></defs>'
+   +'<rect x="140" y="14" width="90" height="42" rx="6" fill="'+th.b+'" opacity=".85"/><text x="185" y="40" fill="#fff" font-size="12" text-anchor="middle" font-family="Tajawal">معالجة</text>'
+   +'<path d="M234 35h34" stroke="'+th.b+'" stroke-width="2" marker-end="url(#ah)"/>'
+   +'<rect x="270" y="14" width="26" height="42" rx="6" fill="'+th.a+'" opacity=".6"/></svg></div>';
+  case 'icon':return '<div class="blk" data-id="'+b.id+'" data-tag="أيقونات" style="display:flex;gap:12px;color:'+th.a+';margin-bottom:12px;justify-content:center">'
+   +['star','book','sparkle','info','keyboard'].map(k=>'<span style="width:26px;height:26px;display:inline-block">'+svgIcon(k)+'</span>').join('')+'</div>';
+  case 'smart':return '<div class="ins-box blk" data-id="'+b.id+'" data-tag="SmartArt"><span class="tagm">SmartArt</span>'
+   +'<div style="text-align:center;font-family:Tajawal,sans-serif;font-size:10px">'
+   +'<div style="display:inline-block;background:'+th.a+';color:#fff;padding:5px 12px;border-radius:5px">معالج النصوص</div>'
+   +'<div style="height:12px;border-inline-start:1px solid #C8C6C4;width:0;margin:0 auto"></div>'
+   +'<div style="display:flex;gap:8px;justify-content:center">'
+   +['كتابة','تنسيق','طباعة'].map(x=>'<div style="background:'+th.b+';color:#fff;padding:4px 10px;border-radius:5px">'+x+'</div>').join('')
+   +'</div></div></div>';
+  case 'chart':{
+   const vals=[70,45,88,60,34],cols=['#2B579A','#0E7C86','#C77700','#B33AA6','#0E7C4A'];
+   return '<div class="ins-box blk" data-id="'+b.id+'" data-tag="مخطط بياني"><span class="tagm">مخطط</span>'
+   +'<div style="display:flex;align-items:flex-end;gap:10px;height:92px;padding-top:8px">'
+   +vals.map((v,i)=>'<div style="flex:1;text-align:center"><div style="height:'+v+'px;background:'+cols[i]+';border-radius:4px 4px 0 0"></div><div style="font-size:8px;color:#797775;margin-top:3px">'+(2021+i)+'</div></div>').join('')
+   +'</div></div>';}
+  case 'pagebreak':return '<div class="pagebreak blk" data-id="'+b.id+'" data-tag="فاصل">فاصل صفحات</div>';
+  case 'blank':return '<div class="pagebreak blk" data-id="'+b.id+'" data-tag="صفحة">صفحة فارغة</div>';
+  case 'textbox':return '<div class="ins-box blk" data-id="'+b.id+'" data-tag="مربع نص" style="border-color:'+th.a+';background:#FBFCFE">'
+   +'<b style="color:'+th.a+'">ملاحظة منهجية:</b> يُنصح بحفظ المستند كل خمس دقائق باستعمال الاختصار Ctrl+S.</div>';
+  case 'wordart':return '<div class="wordart blk" data-id="'+b.id+'" data-tag="WordArt">جامعة الوادي</div>';
+  case 'equation':return '<div class="ins-box blk" data-id="'+b.id+'" data-tag="معادلة" style="text-align:center;font-size:15px;direction:ltr">'
+   +'المعدل = <span style="display:inline-block;vertical-align:middle;text-align:center"><span style="display:block;border-bottom:1px solid #1B1A19;padding:0 8px">Σ (المعامل × النقطة)</span><span style="display:block;padding:0 8px">Σ المعاملات</span></span></div>';
+  case 'toc':{
+   const hs=S.blocks.filter(x=>x.type==='text'&&(x.tag==='h1'||x.tag==='h2'||x.tag==='title'));
+   return '<div class="toc-box blk" data-id="'+b.id+'" data-tag="جدول المحتويات"><b>جدول المحتويات</b>'
+   +(hs.length?hs.map((x,i)=>'<div class="toc-row" style="'+(x.tag==='h2'?'padding-inline-start:16px;':'')+'"><span>'+esc(x.text.slice(0,42))+'</span><span class="dts"></span><span>'+(i+1)+'</span></div>').join('')
+   :'<div class="toc-row"><span>لا توجد عناوين — طبّق النمط «عنوان 1» على عناوينك أولاً.</span></div>')+'</div>';}
+  case 'bib':return '<div class="ins-box blk" data-id="'+b.id+'" data-tag="قائمة المراجع" style="font-family:Tajawal,sans-serif">'
+   +'<b style="color:'+th.a+'">قائمة المراجع</b>'
+   +'<div style="margin-top:5px">1. قرزي، فاطمة. <i>مدخل إلى الإعلام الآلي</i>. ديوان المطبوعات الجامعية، الجزائر، 2026.</div>'
+   +'<div>2. بن عمر، سليمان. <i>تكنولوجيا التعليم</i>. دار الأمة، 2023.</div></div>';
+  case 'caption':return '<div class="blk" data-id="'+b.id+'" data-tag="تسمية" style="font-size:10px;color:#797775;text-align:center;font-family:Tajawal,sans-serif;margin-bottom:12px">الجدول 1: توزيع أدوات البرنامج حسب التبويبات</div>';
+  case 'date':return '<div class="blk" data-id="'+b.id+'" data-tag="تاريخ" style="font-size:11px;color:#4A4948;font-family:Tajawal,sans-serif">'+esc(b.text)+'</div>';
+  default:return '';
+ }
+}
+function render(){
+ const p=$('#paper');if(!p)return;
+ const pg=S.page,th=THEMES[pg.theme]||THEMES[0];
+ p.style.setProperty('--pgAccent',th.a);
+ p.style.setProperty('--pgPad',pg.margin+'px');
+ p.classList.toggle('land',pg.orient==='landscape');
+ p.classList.toggle('bordered',pg.border);
+ const base=pg.size==='A5'?430:pg.size==='Letter'?532:520;
+ p.style.width=(pg.orient==='landscape'?Math.round(base*1.3):base)+'px';
+ p.style.background=pg.color;
+ p.style.padding=pg.margin+'px';
+ p.style.paddingTop=(pg.margin+(OPT.ruler?18:0))+'px';
+ p.style.paddingBottom=(pg.margin+((pg.ftr||pg.pgnum)?24:0))+'px';
+ let h='';
+ if(OPT.ruler)h+='<div class="ruler"></div>';
+ if(OPT.grid)h+='<div class="grid-ov"></div>';
+ if(pg.wm)h+='<div class="wm"><span>مسوّدة</span></div>';
+ if(pg.hdr)h+='<div class="hdr"><span>جامعة الشهيد حمه لخضر – الوادي</span><span>مقياس الإعلام الآلي</span></div>';
+ if(S.flags.compare)h+='<div class="ins-box" style="border-color:#C77700;background:#FFF8EC"><span class="tagm" style="background:#C77700">مقارنة</span>رُصدت 3 فروق بين النسخة الحالية والنسخة المحفوظة (إضافتان وحذف واحد).</div>';
+ if(S.flags.track)h+='<div class="ins-box" style="border-color:#0E7C86"><span class="tagm">تتبع التغييرات</span><span class="trk-del">مسوّدة أولى</span> <span class="trk-ins">نسخة منقّحة</span> — تعديل مسجَّل باسم: د. فاطمة قرزي</div>';
+ h+='<div class="doc-body" style="'+(pg.cols>1?'column-count:'+pg.cols+';column-gap:22px;':'')+(pg.indent?'padding-inline:'+pg.indent+'px;':'')+'">';
+ S.blocks.forEach(b=>{h+=blockHTML(b);});
+ h+='</div>';
+ if(S.fns.length)h+='<div class="foot-zone">'+S.fns.map((f,i)=>'<div><b>'+(i+1)+'</b> — '+esc(f)+'</div>').join('')+'</div>';
+ if(S.flags.comment)h+='<div class="cmt"><b>د. فاطمة قرزي:</b> أضيفي مرجعاً حديثاً لهذه الفقرة ووثّقيه في الحاشية.</div>';
+ if(pg.ftr||pg.pgnum)h+='<div class="ftr" style="inset-inline:'+pg.margin+'px"><span>'+(pg.ftr?'السنة الأولى علوم إنسانية — 2025/2026':'')+'</span><span>'+(pg.pgnum?'صفحة 1 من 3':'')+'</span></div>';
+ if(S.flags.protect)h+='<div class="locked"><div>'+svgIcon('lock')+' المستند محمي ضد التحرير</div></div>';
+ p.innerHTML=h;
+ syncTools();
+ renderStatus();
+}
+function renderStatus(){
+ const el=$('#statusBar');if(!el)return;
+ const b=selBlock(),pg=S.page;
+ const names={title:'عنوان رئيسي',h1:'عنوان 1',h2:'عنوان 2',p:'فقرة',quote:'اقتباس'};
+ const types={table:'جدول',image:'صورة',toc:'جدول محتويات',pagebreak:'فاصل صفحات',cover:'صفحة غلاف',chart:'مخطط بياني',
+  shape:'شكل تخطيطي',smart:'مخطط SmartArt',textbox:'مربع نص',wordart:'نص فني',equation:'معادلة',bib:'قائمة مراجع',
+  caption:'تسمية توضيحية',date:'تاريخ',icon:'مجموعة أيقونات',shot:'لقطة شاشة',blank:'صفحة فارغة'};
+ let selTxt;
+ if(S.selAll)selTxt='المستند بالكامل ('+allText().length+' فقرات)';
+ else if(b)selTxt=(b.type==='text'?(names[b.tag]||'فقرة')+' — '+b.text.slice(0,26)+'…':(types[b.type]||'عنصر'));
+ else selTxt='لا شيء — انقر على فقرة داخل المستند';
+ const st=(b&&b.st)||{},chips=[];
+ if(st.bold)chips.push('عريض');
+ if(st.italic)chips.push('مائل');
+ if(st.underline)chips.push('تسطير');
+ if(st.strike)chips.push('يتوسطه خط');
+ if(st.list)chips.push({ul:'تعداد نقطي',ol:'تعداد رقمي',multi:'متعدد المستويات'}[st.list]);
+ if(b&&b.type==='text'){
+  chips.push('محاذاة: '+({right:'يمين',center:'وسط',left:'يسار',justify:'ضبط'}[st.align||(b.tag==='title'?'center':'right')]));
+  if(st.size)chips.push('حجم '+st.size+' pt');
+  if(st.lh)chips.push('تباعد '+st.lh);
+ }
+ if(st.color)chips.push('لون خط مخصص');
+ if(st.hl)chips.push('تمييز لوني');
+ if(st.shade)chips.push('تظليل');
+ if(st.dropcap)chips.push('حرف استهلالي');
+ if(st.border)chips.push('حدود فقرة');
+ if(S.flags.spell)chips.push('تدقيق إملائي');
+ if(S.flags.track)chips.push('تتبع التغييرات');
+ el.innerHTML='<span class="sb-lbl">'+svgIcon('eye')+'العنصر المحدَّد: <b style="color:var(--ink)">'+esc(selTxt)+'</b></span>'
+  +'<span class="sb-sep"></span>'+chips.map(c=>'<span class="fchip">'+esc(c)+'</span>').join('')
+  +'<span class="sb-page"><span>'+esc(pg.size)+'</span><span>'+(pg.orient==='landscape'?'أفقي':'عمودي')+'</span>'
+  +'<span>هامش '+(pg.margin/19.2).toFixed(1)+' سم</span><span>'+pg.cols+' عمود</span><span>'+S.blocks.length+' عنصراً</span></span>';
+}
+function flash(){const p=$('#paper');p.classList.remove('flash');void p.offsetWidth;p.classList.add('flash');}
+
+/* ==================== 8. ACTIONS ==================== */
+let lastEffect='';
+function act(key,val,tool){
+ if(S.flags.protect&&key!=='rev:protect'){toast('المستند محمي: أوقِف «تقييد التحرير» أولاً.','warn');Sound.bad();return false;}
+ const T=targets(),b=selBlock(),pg=S.page;
+ const need=()=>{if(!T.length){toast('حدّد فقرة داخل المستند أولاً بالنقر عليها.','warn');return false;}return true;};
+ let msg='',kind='ok',noPush=false;
+ switch(key){
+  case 'bold':if(!need())return false;T.forEach(x=>x.st.bold=!x.st.bold);msg='تم '+(T[0].st.bold?'تطبيق':'إزالة')+' الخط العريض.';break;
+  case 'italic':if(!need())return false;T.forEach(x=>x.st.italic=!x.st.italic);msg='تم '+(T[0].st.italic?'تطبيق':'إزالة')+' الخط المائل.';break;
+  case 'underline':if(!need())return false;T.forEach(x=>x.st.underline=!x.st.underline);msg='تم '+(T[0].st.underline?'تسطير':'إزالة تسطير')+' النص.';break;
+  case 'strike':if(!need())return false;T.forEach(x=>x.st.strike=!x.st.strike);msg='تم '+(T[0].st.strike?'رسم':'إزالة')+' خط يتوسط النص.';break;
+  case 'sub':if(!need())return false;T.forEach(x=>x.st.script=x.st.script==='sub'?null:'sub');msg='وضع المنخفض (Subscript).';break;
+  case 'sup':if(!need())return false;T.forEach(x=>x.st.script=x.st.script==='sup'?null:'sup');msg='وضع المرتفع (Superscript).';break;
+  case 'color':if(!need())return false;T.forEach(x=>x.st.color=val||'#2B579A');msg='تم تغيير لون الخط.';break;
+  case 'highlight':if(!need())return false;T.forEach(x=>x.st.hl=val||'#F2E33D');msg='تم تمييز خلفية النص.';break;
+  case 'font':if(!need())return false;T.forEach(x=>x.st.font=val);msg='تم تغيير نوع الخط.';break;
+  case 'size':if(!need())return false;T.forEach(x=>x.st.size=val);msg='حجم الخط الآن '+val+' نقطة.';break;
+  case 'font+':if(!need())return false;T.forEach(x=>x.st.size=Math.min(48,(x.st.size||14)+2));msg='تم تكبير الخط درجتين.';break;
+  case 'font-':if(!need())return false;T.forEach(x=>x.st.size=Math.max(8,(x.st.size||14)-2));msg='تم تصغير الخط درجتين.';break;
+  case 'case':if(!need())return false;T.forEach(x=>x.st.upper=!x.st.upper);msg='تم تبديل حالة الأحرف اللاتينية.';break;
+  case 'clear':if(!need())return false;T.forEach(x=>{x.st={};x.cite=false;});msg='تمت إزالة كل التنسيقات والعودة إلى النمط عادي.';break;
+  case 'bullets':if(!need())return false;T.forEach(x=>x.st.list=x.st.list==='ul'?null:'ul');msg='تحويل الفقرة إلى تعداد نقطي.';break;
+  case 'number':if(!need())return false;T.forEach(x=>x.st.list=x.st.list==='ol'?null:'ol');msg='تحويل الفقرة إلى تعداد رقمي.';break;
+  case 'multilevel':if(!need())return false;T.forEach(x=>x.st.list=x.st.list==='multi'?null:'multi');msg='قائمة متعددة المستويات (أساس خطة البحث).';break;
+  case 'indent+':if(!need())return false;T.forEach(x=>x.st.indent=Math.min(72,(x.st.indent||0)+14));msg='زيادة المسافة البادئة للفقرة.';break;
+  case 'indent-':if(!need())return false;T.forEach(x=>x.st.indent=Math.max(0,(x.st.indent||0)-14));msg='إنقاص المسافة البادئة للفقرة.';break;
+  case 'sort':if(!need())return false;
+   if(T[0].items){T.forEach(x=>{if(x.items)x.items=x.items.slice().sort((m,n)=>m.localeCompare(n,'ar'));});msg='تم فرز عناصر القائمة ألفبائياً.';}
+   else{msg='لا توجد قائمة لفرزها — طبّق تعداداً نقطياً أولاً.';kind='warn';}break;
+  case 'marks':S.flags.marks=!S.flags.marks;msg=S.flags.marks?'تم إظهار رموز التنسيق المخفية ¶.':'تم إخفاء رموز التنسيق.';break;
+  case 'align:right':case 'align:center':case 'align:left':case 'align:justify':
+   if(!need())return false;{const v=key.split(':')[1];T.forEach(x=>x.st.align=v);
+   msg={'right':'محاذاة إلى اليمين (الافتراضية للعربية).','center':'توسيط النص بين الهامشين.','left':'محاذاة إلى اليسار.','justify':'ضبط النص على الهامشين.'}[v];}break;
+  case 'linespace':if(!need())return false;T.forEach(x=>x.st.lh=val);msg='تم ضبط تباعد الأسطر.';break;
+  case 'shading':if(!need())return false;T.forEach(x=>x.st.shade=(val&&val.charAt(0)==='#')?val:null);msg=val&&val.charAt(0)==='#'?'تم تظليل خلفية الفقرة.':'تمت إزالة التظليل.';break;
+  case 'borders':if(!need())return false;T.forEach(x=>x.st.border=!x.st.border);msg='تم '+(T[0].st.border?'إضافة':'إزالة')+' حدود الفقرة.';break;
+  case 'style:normal':case 'style:h1':case 'style:h2':case 'style:title':case 'style:quote':
+   if(!need())return false;{const m={normal:'p',h1:'h1',h2:'h2',title:'title',quote:'quote'}[key.split(':')[1]];
+   T.forEach(x=>x.tag=m);msg='تم تطبيق النمط على الفقرة المحددة.';}break;
+  case 'find':S.find=val||'';noPush=true;
+   if(S.find){let c=0;allText().forEach(x=>{const m=x.text.split(S.find).length-1;c+=m;});
+    msg=c?('تم العثور على '+c+' نتيجة لكلمة «'+S.find+'».'):('لا توجد نتيجة لكلمة «'+S.find+'».');kind=c?'ok':'warn';}
+   else msg='تم مسح نتائج البحث.';break;
+  case 'replace':{const f=(val&&val.f||'').trim(),t=(val&&val.t||'');
+   if(!f){msg='اكتب الكلمة المراد استبدالها أولاً.';kind='warn';break;}
+   let c=0;S.blocks.forEach(x=>{if(x.type==='text'&&x.text.indexOf(f)>-1){c+=x.text.split(f).length-1;x.text=x.text.split(f).join(t);}
+    if(x.items)x.items=x.items.map(i=>i.split(f).join(t));});
+   msg=c?('تم استبدال '+c+' موضعاً.'):('لم يُعثر على «'+f+'».');kind=c?'ok':'warn';}break;
+  case 'selectall':S.selAll=!S.selAll;msg=S.selAll?'تم تحديد المستند بالكامل — أي تنسيق سيُطبَّق على الكل.':'تم إلغاء تحديد الكل.';break;
+  case 'clip:copy':if(!b){toast('حدّد عنصراً أولاً.','warn');return false;}S.clip=JSON.parse(JSON.stringify(b));msg='تم نسخ العنصر إلى الحافظة.';break;
+  case 'clip:cut':if(!b){toast('حدّد عنصراً أولاً.','warn');return false;}
+   if(S.blocks.length<2){toast('لا يمكن قص آخر عنصر في المستند.','warn');return false;}
+   S.clip=JSON.parse(JSON.stringify(b));S.blocks=S.blocks.filter(x=>x.id!==b.id);S.sel=S.blocks[0].id;msg='تم قص العنصر إلى الحافظة.';break;
+  case 'clip:paste':if(!S.clip){toast('الحافظة فارغة — انسخ أو قص عنصراً أولاً.','warn');return false;}
+   {const c=JSON.parse(JSON.stringify(S.clip));c.id=nid();const i=S.blocks.findIndex(x=>x.id===S.sel);
+   S.blocks.splice(i<0?S.blocks.length:i+1,0,c);S.sel=c.id;msg='تم لصق محتوى الحافظة.';}break;
+  case 'clip:painter':if(!b){toast('حدّد فقرة أولاً.','warn');return false;}
+   if(!S.painter){S.painter=JSON.parse(JSON.stringify(b.st||{}));msg='تم نسخ التنسيق — حدّد فقرة أخرى ثم انقر الأداة مجدداً للصقه.';kind='warn';}
+   else{b.st=JSON.parse(JSON.stringify(S.painter));S.painter=null;msg='تم لصق التنسيق على الفقرة المحددة.';}break;
+  case 'ins:cover':S.blocks.unshift({id:nid(),type:'cover'});msg='تمت إضافة صفحة غلاف في بداية المستند.';break;
+  case 'ins:blank':insAfter({id:nid(),type:'blank'});msg='تمت إضافة صفحة فارغة.';break;
+  case 'ins:break':insAfter({id:nid(),type:'pagebreak'});msg='تم إدراج فاصل صفحات.';break;
+  case 'ins:table':{const r=(val&&val.r)||3,c=(val&&val.c)||4;insAfter({id:nid(),type:'table',rows:r,cols:c});msg='تم إدراج جدول '+r+'×'+c+'.';}break;
+  case 'ins:pic':insAfter({id:nid(),type:'image'});msg='تم إدراج صورة مع تسمية توضيحية.';break;
+  case 'ins:shape':insAfter({id:nid(),type:'shape'});msg='تم إدراج شكل تخطيطي (مراحل المعالجة).';break;
+  case 'ins:icon':insAfter({id:nid(),type:'icon'});msg='تمت إضافة مجموعة أيقونات متجهة.';break;
+  case 'ins:smart':insAfter({id:nid(),type:'smart'});msg='تم إدراج مخطط SmartArt هرمي.';break;
+  case 'ins:chart':insAfter({id:nid(),type:'chart'});msg='تم إدراج مخطط بياني بالأعمدة.';break;
+  case 'ins:shot':insAfter({id:nid(),type:'shot'});msg='تم إدراج لقطة شاشة لنافذة البرنامج.';break;
+  case 'ins:header':pg.hdr=!pg.hdr;msg=pg.hdr?'تم تفعيل رأس الصفحة على كل الصفحات.':'تم إلغاء رأس الصفحة.';break;
+  case 'ins:footer':pg.ftr=!pg.ftr;msg=pg.ftr?'تم تفعيل تذييل الصفحة.':'تم إلغاء تذييل الصفحة.';break;
+  case 'ins:pagenum':pg.pgnum=!pg.pgnum;msg=pg.pgnum?'تم ترقيم الصفحات آلياً.':'تم إلغاء ترقيم الصفحات.';break;
+  case 'ins:textbox':insAfter({id:nid(),type:'textbox'});msg='تم إدراج مربع نص جانبي.';break;
+  case 'ins:wordart':insAfter({id:nid(),type:'wordart'});msg='تم إدراج نص فني WordArt.';break;
+  case 'ins:dropcap':if(!need())return false;T.forEach(x=>x.st.dropcap=!x.st.dropcap);msg='تم '+(T[0].st.dropcap?'تفعيل':'إلغاء')+' الحرف الاستهلالي.';break;
+  case 'ins:date':{let d;try{d=new Intl.DateTimeFormat('ar-DZ',{dateStyle:'full'}).format(new Date());}catch(e){d=new Date().toLocaleDateString();}
+   insAfter({id:nid(),type:'date',text:'الوادي في: '+d});msg='تم إدراج تاريخ اليوم آلياً.';}break;
+  case 'ins:eq':insAfter({id:nid(),type:'equation'});msg='تم إدراج معادلة بمحرّر المعادلات.';break;
+  case 'ins:sym':if(!need())return false;T.forEach(x=>x.text+=' '+(val||'©'));msg='تم إدراج الرمز '+(val||'©')+' في النص.';break;
+  case 'des:theme':case 'des:colors':pg.theme=(val===undefined?((pg.theme+1)%THEMES.length):val);msg='تم تطبيق سمة «'+THEMES[pg.theme].n+'» على المستند.';break;
+  case 'des:fonts':pg.font=val;msg='تم توحيد خطوط المستند.';break;
+  case 'des:pspace':pg.pspace=val;msg='تباعد الفقرات الآن '+val+' نقطة.';break;
+  case 'des:watermark':pg.wm=!pg.wm;msg=pg.wm?'تمت إضافة علامة مائية «مسوّدة».':'تمت إزالة العلامة المائية.';break;
+  case 'des:pagecolor':pg.color=val;msg='تم تغيير لون خلفية الصفحة.';break;
+  case 'des:border':pg.border=!pg.border;msg=pg.border?'تمت إضافة إطار للصفحة.':'تمت إزالة إطار الصفحة.';break;
+  case 'lay:margin':pg.margin=val;msg='تم ضبط الهوامش.';break;
+  case 'lay:orient':pg.orient=val;msg='اتجاه الصفحة الآن: '+(val==='landscape'?'أفقي':'عمودي')+'.';break;
+  case 'lay:size':pg.size=val;msg='مقاس الورق الآن: '+val+'.';break;
+  case 'lay:columns':pg.cols=val;msg='تم تقسيم النص إلى '+val+' عمود.';break;
+  case 'lay:indent':pg.indent=val;msg='المسافة البادئة للصفحة: '+val+' بكسل.';break;
+  case 'lay:spacing':pg.pspace=val;msg='التباعد بين الفقرات: '+val+' نقطة.';break;
+  case 'ref:toc':{const ex=S.blocks.find(x=>x.type==='toc');if(ex){S.blocks=S.blocks.filter(x=>x.type!=='toc');msg='تم حذف جدول المحتويات.';}
+   else{S.blocks.splice(1,0,{id:nid(),type:'toc'});msg='تم توليد جدول محتويات آلي من أنماط العناوين.';}}break;
+  case 'ref:footnote':{if(!b||b.type!=='text'){toast('ضع المؤشر داخل فقرة نصية أولاً.','warn');return false;}
+   S.fns.push('قرزي، فاطمة. مدخل إلى الإعلام الآلي. ديوان المطبوعات الجامعية، الجزائر، 2026، ص '+(12+S.fns.length*9)+'.');
+   b.fn=S.fns.length;msg='تمت إضافة حاشية سفلية رقم '+S.fns.length+' أسفل الصفحة.';}break;
+  case 'ref:nextfn':noPush=true;if(!S.fns.length){msg='لا توجد حواشٍ بعد — أدرج حاشية أولاً.';kind='warn';break;}
+   S.fnCur=(S.fnCur%S.fns.length)+1;msg='الحاشية '+S.fnCur+': '+S.fns[S.fnCur-1];break;
+  case 'ref:cite':if(!need())return false;T.forEach(x=>x.cite=true);msg='تم إدراج استشهاد داخل المتن بنظام APA.';break;
+  case 'ref:bib':insAfter({id:nid(),type:'bib'});msg='تم توليد قائمة المراجع آلياً.';break;
+  case 'ref:caption':insAfter({id:nid(),type:'caption'});msg='تمت إضافة تسمية توضيحية مرقّمة.';break;
+  case 'rev:spell':S.flags.spell=!S.flags.spell;msg=S.flags.spell?'تم تشغيل التدقيق: الكلمات المشكوك فيها مُسطّرة بالأحمر.':'تم إيقاف التدقيق الإملائي.';break;
+  case 'rev:count':{noPush=true;let w=0,ch=0;allText().forEach(x=>{w+=x.text.trim().split(/\s+/).length;ch+=x.text.length;
+    if(x.items)x.items.forEach(i=>{w+=i.trim().split(/\s+/).length;ch+=i.length;});});
+   msg='الإحصاء: '+w+' كلمة · '+ch+' حرفاً · '+allText().length+' فقرة · '+S.blocks.length+' عنصراً.';}break;
+  case 'rev:comment':S.flags.comment=!S.flags.comment;msg=S.flags.comment?'تمت إضافة تعليق هامشي باسم الأستاذة.':'تم حذف التعليق.';break;
+  case 'rev:track':S.flags.track=!S.flags.track;msg=S.flags.track?'تم تفعيل تتبع التغييرات: كل تعديل سيُسجَّل بلون مميز.':'تم إيقاف تتبع التغييرات.';break;
+  case 'rev:accept':if(!S.flags.track){msg='لا توجد تغييرات مقترحة لقبولها.';kind='warn';break;}
+   S.flags.track=false;{const lt=allText()[allText().length-1];if(lt)lt.text+=' (نسخة منقّحة)';}msg='تم قبول التعديل ودمجه في النص.';break;
+  case 'rev:reject':if(!S.flags.track){msg='لا توجد تغييرات مقترحة لرفضها.';kind='warn';break;}
+   S.flags.track=false;msg='تم رفض التعديل والعودة إلى النص الأصلي.';break;
+  case 'rev:compare':S.flags.compare=!S.flags.compare;msg=S.flags.compare?'تم فتح تقرير المقارنة مع النسخة المحفوظة.':'تم إغلاق تقرير المقارنة.';break;
+  case 'rev:protect':S.flags.protect=!S.flags.protect;msg=S.flags.protect?'تم تقييد التحرير: المستند الآن للقراءة فقط.':'تم رفع الحماية عن المستند.';break;
+  default:msg='تم تنفيذ الأمر.';
+ }
+ if(!noPush)push();
+ lastEffect=msg;
+ render();flash();
+ if(msg){toast(msg,kind);(kind==='warn'?Sound.click():Sound.apply());}
+ if(tool)showTool(tool,false);
+ return true;
+}
+function insAfter(obj){const i=S.blocks.findIndex(x=>x.id===S.sel);S.blocks.splice(i<0?S.blocks.length:i+1,0,obj);}
+
+/* ==================== 9. RIBBON UI ==================== */
+let curTab=0,toolBtns=[],lastTool=null;
+function toolActive(t){
+ const b=selBlock(),st=(b&&b.st)||{},pg=S.page,f=S.flags;
+ switch(t.a){
+  case 'bold':return !!st.bold;case 'italic':return !!st.italic;case 'underline':return !!st.underline;case 'strike':return !!st.strike;
+  case 'sub':return st.script==='sub';case 'sup':return st.script==='sup';
+  case 'align:right':return (st.align||'right')==='right';case 'align:center':return st.align==='center';
+  case 'align:left':return st.align==='left';case 'align:justify':return st.align==='justify';
+  case 'bullets':return st.list==='ul';case 'number':return st.list==='ol';case 'multilevel':return st.list==='multi';
+  case 'borders':return !!st.border;case 'marks':return f.marks;case 'selectall':return S.selAll;
+  case 'ins:dropcap':return !!st.dropcap;case 'ins:header':return pg.hdr;case 'ins:footer':return pg.ftr;case 'ins:pagenum':return pg.pgnum;
+  case 'des:watermark':return pg.wm;case 'des:border':return pg.border;
+  case 'rev:spell':return f.spell;case 'rev:track':return f.track;case 'rev:comment':return f.comment;
+  case 'rev:compare':return f.compare;case 'rev:protect':return f.protect;
+  case 'lay:orient':return pg.orient==='landscape';
+  case 'style:normal':return b&&b.tag==='p';case 'style:h1':return b&&b.tag==='h1';case 'style:h2':return b&&b.tag==='h2';
+  case 'style:title':return b&&b.tag==='title';case 'style:quote':return b&&b.tag==='quote';
+  case 'ref:toc':return S.blocks.some(x=>x.type==='toc');
+ }
+ return false;
+}
+function syncTools(){toolBtns.forEach(o=>o.el.classList.toggle('act',!!toolActive(o.tool)));}
+function toolInner(t){return t.ic?svgIcon(t.ic):'<span class="gl '+(t.gc||'')+'" style="'+(t.gs||'')+'">'+esc(t.gl||'A')+'</span>';}
+function buildTabs(){
+ const el=$('#tabs');el.innerHTML='';
+ RIBBON.forEach((t,i)=>{
+  const b=document.createElement('button');
+  b.className='tab'+(i===0?' on':'');b.style.setProperty('--tc',t.c);b.setAttribute('role','tab');
+  b.innerHTML='<span class="dt"></span>'+t.ar+' <small>'+t.en+'</small>';
+  b.addEventListener('click',()=>setTab(i));
+  el.appendChild(b);
+ });
+ el.addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft'){setTab(Math.min(RIBBON.length-1,curTab+1));$$('.tab')[curTab].focus();}
+  if(e.key==='ArrowRight'){setTab(Math.max(0,curTab-1));$$('.tab')[curTab].focus();}
+ });
+}
+function setTab(i){
+ curTab=i;const t=RIBBON[i];
+ $$('.tab').forEach((b,j)=>b.classList.toggle('on',j===i));
+ const app=$('.app');app.style.setProperty('--tab',t.c);app.style.setProperty('--tab-2',t.c);
+ $('#pillTab').textContent=t.ar;
+ renderGroups();Sound.tab();
+ if(!lastTool||lastTool._tab!==t.id)showTool(t.groups[0].tools[0],true);
+}
+function renderGroups(){
+ const t=RIBBON[curTab],g=$('#groups');g.innerHTML='';toolBtns=[];
+ t.groups.forEach(gr=>{
+  const d=document.createElement('div');d.className='grp';
+  const row=document.createElement('div');row.className='grp-tools';
+  if(gr.w)row.style.maxWidth=gr.w+'px';
+  gr.tools.forEach(tl=>{
+   tl._tab=t.id;tl._grp=gr;
+   let el;
+   if(gr.styleGroup){
+    el=document.createElement('button');el.className='stylechip '+tl.cls;el.type='button';
+    el.innerHTML='<b>'+esc(tl.prev)+'</b><i>'+esc(tl.sub)+'</i>';
+   }else{
+    el=document.createElement('button');el.type='button';
+    el.className='tool'+(tl.big?' big':'')+(tl.lbl?' lbl':'');
+    el.innerHTML=toolInner(tl)+(tl.big||tl.lbl?'<span class="lb">'+esc(tl.ar)+'</span>':'');
+   }
+   el.title=tl.ar+' — '+tl.en+(tl.sc?' ('+tl.sc+')':'');
+   el.setAttribute('aria-label',el.title);
+   el.addEventListener('mouseenter',()=>showTool(tl,true));
+   el.addEventListener('focus',()=>showTool(tl,true));
+   el.addEventListener('click',()=>{Sound.click();act(tl.a,undefined,tl);});
+   row.appendChild(el);toolBtns.push({el:el,tool:tl});
+  });
+  d.appendChild(row);
+  const l=document.createElement('div');l.className='grp-lbl';l.textContent=gr.ar+' · '+gr.en;
+  d.appendChild(l);g.appendChild(d);
+ });
+ syncTools();
+}
+/* ---- inspector ---- */
+function stepVal(a){
+ const b=selBlock();
+ if(a==='size')return (b&&b.st.size)||14;
+ if(a==='des:pspace'||a==='lay:spacing')return S.page.pspace;
+ if(a==='lay:indent')return S.page.indent;
+ return 0;
+}
+function controlsHTML(t){
+ const o=t.opt;if(!o)return '';
+ if(o.k==='sw'){
+  return '<div class="ctl-box"><div class="insp-lbl">اختر اللون</div><div class="swatches">'
+   +o.v.map(c=>c.charAt(0)==='#'
+    ?'<button class="sw" data-v="'+c+'" style="background:'+c+'" title="'+c+'" aria-label="لون '+c+'"></button>'
+    :'<button class="opt" data-v="'+c+'">'+esc(c)+'</button>').join('')+'</div></div>';
+ }
+ if(o.k==='list'){
+  return '<div class="ctl-box"><div class="insp-lbl">خيارات جاهزة</div><div class="opt-row">'
+   +o.v.map(x=>'<button class="opt" data-v="'+esc(String(x.v))+'">'+esc(x.l)+'</button>').join('')+'</div></div>';
+ }
+ if(o.k==='theme'){
+  return '<div class="ctl-box"><div class="insp-lbl">سمات المستند</div><div class="opt-row">'
+   +o.v.map((x,i)=>'<button class="opt'+(S.page.theme===i?' on':'')+'" data-i="'+i+'"><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:'+x.a+';margin-inline-end:5px"></span>'+esc(x.n)+'</button>').join('')+'</div></div>';
+ }
+ if(o.k==='step'){
+  return '<div class="ctl-box"><div class="insp-lbl">قيمة دقيقة</div><div class="stepper">'
+   +'<button data-d="-1" aria-label="إنقاص">−</button><output id="stepOut">'+stepVal(o.a)+'</output><button data-d="1" aria-label="زيادة">+</button></div></div>';
+ }
+ if(o.k==='tgrid'){
+  let c='';for(let r=1;r<=5;r++)for(let col=1;col<=6;col++)c+='<i data-r="'+r+'" data-c="'+col+'"></i>';
+  return '<div class="ctl-box"><div class="insp-lbl">حدّد أبعاد الجدول <span id="tgLbl" style="color:var(--tab)">3×4</span></div><div class="tgrid">'+c+'</div></div>';
+ }
+ if(o.k==='text'){
+  return '<div class="ctl-box"><div class="insp-lbl">ابحث داخل المستند</div>'
+   +'<input class="insp-in" id="findIn" placeholder="اكتب كلمة… مثال: تبويب" value="'+esc(S.find)+'">'
+   +'<div class="opt-row" style="margin-top:8px"><button class="opt" id="findGo">بحث</button><button class="opt" id="findClr">مسح</button></div></div>';
+ }
+ if(o.k==='text2'){
+  return '<div class="ctl-box"><div class="insp-lbl">استبدال</div>'
+   +'<input class="insp-in" id="repA" placeholder="الكلمة المطلوبة… مثال: الحاسب">'
+   +'<input class="insp-in" id="repB" placeholder="استبدالها بـ… مثال: الحاسوب" style="margin-top:6px">'
+   +'<div class="opt-row" style="margin-top:8px"><button class="opt" id="repGo">استبدال الكل</button></div></div>';
+ }
+ return '';
+}
+function showTool(t,hoverOnly){
+ if(!t)return;lastTool=t;
+ const tab=RIBBON.find(x=>x.id===t._tab)||RIBBON[curTab];
+ const gr=t._grp||{ar:'',en:''};
+ $('#pillTool').textContent=t.ar;
+ const i=$('#inspector');
+ i.innerHTML=
+ '<div class="insp-crumb"><b>'+esc(tab.ar)+'</b><span>›</span><span>'+esc(gr.ar)+'</span></div>'
+ +'<div class="insp-head"><div class="insp-ic">'+toolInner(t)+'</div><div style="min-width:0">'
+ +'<h3 class="insp-t">'+esc(t.ar)+'</h3><p class="insp-en">'+esc(t.en)+'</p>'
+ +(t.sc?'<span class="kbd" style="margin-top:6px">'+esc(t.sc)+'</span>':'<span style="font-size:.7rem;color:var(--ink-3)">لا يوجد اختصار افتراضي</span>')
+ +'</div></div>'
+ +'<div class="insp-body">'
+ +'<div><div class="insp-lbl">الوظيفة</div><p class="insp-desc">'+esc(t.d)+'</p></div>'
+ +'<div class="insp-ex"><b>مثال تطبيقي: </b>'+esc(t.ex)+'</div>'
+ +(lastEffect&&!hoverOnly?'<div class="effect">'+svgIcon('check')+'<span>'+esc(lastEffect)+'</span></div>':'')
+ +controlsHTML(t)
+ +'<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="opt" id="applyBtn" style="flex:1;justify-content:center;background:var(--tab);color:#fff;border-color:var(--tab);padding:9px">تطبيق الأداة على المستند</button></div>'
+ +'<p style="margin:0;font-size:.72rem;color:var(--ink-3);line-height:1.6">💡 '+esc(tab.note)+'</p>'
+ +'</div>';
+ $('#applyBtn').addEventListener('click',()=>act(t.a,undefined,t));
+ $$('[data-v]',i).forEach(b=>b.addEventListener('click',()=>{
+  const raw=b.getAttribute('data-v');let v=raw;
+  if(t.opt&&t.opt.k==='list'){const f=t.opt.v.find(x=>String(x.v)===raw);v=f?f.v:raw;if(String(v)===String(Number(v))&&raw!=='')v=Number(raw);}
+  act(t.opt?t.opt.a:t.a,v,t);
+ }));
+ $$('[data-i]',i).forEach(b=>b.addEventListener('click',()=>act(t.opt.a,Number(b.getAttribute('data-i')),t)));
+ if(t.opt&&t.opt.k==='step'){
+  $$('.stepper button',i).forEach(btn=>btn.addEventListener('click',()=>{
+   const d=Number(btn.getAttribute('data-d'));
+   const v=Math.max(t.opt.min,Math.min(t.opt.max,stepVal(t.opt.a)+d*t.opt.step));
+   act(t.opt.a,v,t);
+  }));
+ }
+ if(t.opt&&t.opt.k==='tgrid'){
+  const cells=$$('.tgrid i',i),lb=$('#tgLbl',i);
+  const paint=(r,c)=>cells.forEach(x=>x.classList.toggle('on',Number(x.dataset.r)<=r&&Number(x.dataset.c)<=c));
+  paint(3,4);
+  cells.forEach(c=>{
+   c.addEventListener('mouseenter',()=>{paint(Number(c.dataset.r),Number(c.dataset.c));lb.textContent=c.dataset.r+'×'+c.dataset.c;});
+   c.addEventListener('click',()=>act('ins:table',{r:Number(c.dataset.r),c:Number(c.dataset.c)},t));
+  });
+ }
+ if(t.opt&&t.opt.k==='text'){
+  const go=()=>act('find',$('#findIn').value,t);
+  $('#findGo').addEventListener('click',go);
+  $('#findClr').addEventListener('click',()=>{$('#findIn').value='';act('find','',t);});
+  $('#findIn').addEventListener('keydown',e=>{if(e.key==='Enter')go();});
+ }
+ if(t.opt&&t.opt.k==='text2'){
+  $('#repGo').addEventListener('click',()=>act('replace',{f:$('#repA').value,t:$('#repB').value},t));
+ }
+}
+function emptyInspector(){
+ $('#inspector').innerHTML='<div class="insp-empty">'+svgIcon('eye')+'<p>مرّر الفأرة فوق أي أداة في الشريط أو انقر عليها لعرض بطاقتها التعليمية هنا، مع مثال تطبيقي وأثرها المباشر على المستند.</p></div>';
+}
+
+/* ==================== 10. DOC TOOLBAR ==================== */
+$('#paper').addEventListener('click',e=>{
+ const el=e.target.closest('.blk');if(!el||!el.dataset.id)return;
+ if(S.flags.protect){toast('المستند محمي ضد التحرير.','warn');Sound.bad();return;}
+ const b=S.blocks.find(x=>x.id===el.dataset.id);
+ if(b){S.sel=b.id;S.selAll=false;render();Sound.click();
+  if(b.type==='text')toast('تم تحديد: '+b.text.slice(0,34)+'…');}
+});
+$('#undoBtn').addEventListener('click',()=>{if(!UNDO.length)return;REDO.push(snap());restore(UNDO.pop());toast('تم التراجع عن آخر إجراء (Undo).');Sound.click();});
+$('#redoBtn').addEventListener('click',()=>{if(!REDO.length)return;UNDO.push(snap());restore(REDO.pop());toast('تمت إعادة الإجراء (Redo).');Sound.click();});
+$('#rulerBtn').addEventListener('click',e=>{OPT.ruler=!OPT.ruler;e.currentTarget.classList.toggle('on',OPT.ruler);render();Sound.click();});
+$('#gridBtn').addEventListener('click',e=>{OPT.grid=!OPT.grid;e.currentTarget.classList.toggle('on',OPT.grid);render();Sound.click();});
+$('#resetDoc').addEventListener('click',()=>{push();S=DEF();S.sel=S.blocks[2].id;lastEffect='';render();emptyInspector();toast('تمت إعادة المستند إلى حالته الأصلية.','ok');Sound.apply();});
+$('#zoom').addEventListener('input',e=>{OPT.zoom=Number(e.target.value);$('#zoomOut').textContent=OPT.zoom+'%';$('#holder').style.transform='scale('+(OPT.zoom/100)+')';});
+$('#exportBtn').addEventListener('click',()=>{
+ const th=THEMES[S.page.theme];
+ const css='body{font-family:Amiri,serif;line-height:1.9;max-width:720px;margin:40px auto;padding:0 28px;color:#1B1A19;background:'+S.page.color+'}'
+ +'.ruler,.grid-ov,.locked{display:none}.doc-table{width:100%;border-collapse:collapse}.doc-table td,.doc-table th{border:1px solid #C8C6C4;padding:6px}'
+ +'.doc-table th{background:'+th.a+';color:#fff}.ins-box{border:1px solid #C8C6C4;padding:10px;margin:10px 0}.tagm{display:none}'
+ +'.blk::before{display:none}.pagebreak{text-align:center;color:#797775;border-top:1px dashed #A9A8A6;margin:14px 0;font-size:11px}'
+ +'.toc-box{border:1px solid #E1DFDD;padding:10px}.wordart{font-size:26px;font-weight:900;color:'+th.a+';text-align:center}';
+ const html='<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>المستند المصغّر — درس Word</title><style>'+css+'</style></head><body>'+$('#paper').innerHTML+'<hr><p style="font-size:11px;color:#797775">مُخرَج من الدليل التفاعلي لواجهة Word — د. فاطمة قرزي — جامعة الشهيد حمه لخضر بالوادي.</p></body></html>';
+ const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='mini-document-word.html';
+ document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1500);
+ toast('تم تنزيل المستند المصغّر بصيغة HTML.','ok');Sound.apply();
+});
+document.addEventListener('keydown',e=>{
+ if(/input|textarea/i.test(e.target.tagName))return;
+ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();$('#undoBtn').click();}
+ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();$('#redoBtn').click();}
+});
+
+/* ==================== 11. SHORTCUTS SECTION ==================== */
+let scFilter='all',scQuery='';
+function buildSC(){
+ const chips=$('#scChips');
+ chips.innerHTML='<button class="chip on" data-f="all">كل الاختصارات <span class="cnt">'+SC.reduce((a,c)=>a+c.items.length,0)+'</span></button>'
+  +SC.map(c=>'<button class="chip" data-f="'+c.id+'">'+esc(c.ar)+' <span class="cnt">'+c.items.length+'</span></button>').join('');
+ $$('.chip',chips).forEach(b=>b.addEventListener('click',()=>{
+  scFilter=b.dataset.f;$$('.chip',chips).forEach(x=>x.classList.toggle('on',x===b));renderSC();Sound.click();}));
+ $('#scSearch').addEventListener('input',e=>{scQuery=e.target.value.trim().toLowerCase();renderSC();});
+ $('#scToggleAll').addEventListener('click',()=>{
+  const gs=$$('.sc-group');const anyOpen=gs.some(g=>!g.classList.contains('closed'));
+  gs.forEach(g=>g.classList.toggle('closed',anyOpen));Sound.click();});
+ renderSC();
+}
+function renderSC(){
+ const box=$('#scList');let total=0;
+ const html=SC.map(c=>{
+  if(scFilter!=='all'&&scFilter!==c.id)return '';
+  const items=c.items.filter(it=>!scQuery||it.ar.toLowerCase().indexOf(scQuery)>-1||it.en.toLowerCase().indexOf(scQuery)>-1||it.k.join(' ').toLowerCase().indexOf(scQuery)>-1);
+  if(!items.length)return '';
+  total+=items.length;
+  return '<div class="sc-group"><button class="sc-ghead" type="button"><span class="gi" style="background:linear-gradient(140deg,'+c.c+',rgba(0,0,0,.35))">'+svgIcon(c.ic)+'</span>'
+   +'<b>'+esc(c.ar)+'</b><span class="n">'+items.length+' اختصاراً</span><span class="arw">'+svgIcon('indentL')+'</span></button>'
+   +'<div class="sc-body" style="max-height:1200px">'
+   +items.map(it=>'<div class="kcard" style="--kc:'+c.c+'"><span class="keys">'+it.k.map(k=>'<span>'+esc(k)+'</span>').join('')+'</span>'
+    +'<span class="txt"><b>'+esc(it.ar)+'</b><i>'+esc(it.en)+'</i></span></div>').join('')
+   +'</div></div>';
+ }).join('');
+ box.innerHTML=html||'<div class="no-res">لا يوجد اختصار مطابق لبحثك — جرّب كلمة أخرى مثل «حفظ» أو «Ctrl».</div>';
+ $$('.sc-ghead',box).forEach(h=>h.addEventListener('click',()=>{h.parentNode.classList.toggle('closed');Sound.click();}));
+}
+
+/* ==================== 12. QUIZ ==================== */
+const QZ={i:0,ans:new Array(QUIZ.length).fill(null),finished:false};
+function score(){return QZ.ans.filter((a,i)=>a===QUIZ[i].c).length;}
+function answered(){return QZ.ans.filter(a=>a!==null).length;}
+function renderQuiz(){
+ $('#qBody').style.display=QZ.finished?'none':'';
+ $('#qNav').style.display=QZ.finished?'none':'';
+ $('#qResult').classList.toggle('show',QZ.finished);
+ const q=QUIZ[QZ.i];
+ $('#qCounter').textContent='السؤال '+(QZ.i+1)+' من '+QUIZ.length;
+ $('#qBarFill').style.width=(answered()/QUIZ.length*100)+'%';
+ $('#qScorePill').textContent='النقاط: '+score();
+ $('#stDone').textContent=answered();$('#stRight').textContent=score();
+ $('#qDots').innerHTML=QUIZ.map((x,i)=>{
+  let c='qdot'+(i===QZ.i?' cur':'');
+  if(QZ.ans[i]!==null)c+=QZ.ans[i]===x.c?' ok':' no';
+  return '<button class="'+c+'" data-i="'+i+'" aria-label="السؤال '+(i+1)+'">'+(i+1)+'</button>';}).join('');
+ $$('#qDots .qdot').forEach(d=>d.addEventListener('click',()=>{QZ.i=Number(d.dataset.i);Sound.click();renderQuiz();}));
+ if(QZ.finished)return;
+ $('#qText').textContent=q.q;$('#qHint').textContent=q.hint;
+ const chosen=QZ.ans[QZ.i];
+ $('#qOpts').innerHTML=q.o.map((o,i)=>{
+  let c='opt-b';
+  if(chosen!==null){if(i===q.c)c+=' right';else if(i===chosen)c+=' wrong';}
+  return '<button class="'+c+'" data-i="'+i+'"'+(chosen!==null?' disabled':'')+'><span class="ltr">'+AR_LTR[i]+'</span><span>'+esc(o)+'</span><span class="mk">'+(chosen!==null&&i===q.c?'✓':(chosen===i?'✕':''))+'</span></button>';
+ }).join('');
+ $$('#qOpts .opt-b').forEach(b=>b.addEventListener('click',()=>answer(Number(b.dataset.i))));
+ const w=$('#qWhy');
+ if(chosen!==null){
+  const ok=chosen===q.c;
+  w.className='why show '+(ok?'good':'bad');
+  w.innerHTML='<b>'+(ok?svgIcon('check')+' إجابة صحيحة':svgIcon('xcross')+' إجابة غير صحيحة — الصحيح: '+esc(q.o[q.c]))+'</b>'+esc(q.why);
+ }else{w.className='why';w.innerHTML='';}
+ $('#btnPrev').disabled=QZ.i===0;
+ $('#btnNext').disabled=QZ.i===QUIZ.length-1;
+ $('#btnFinish').disabled=answered()<QUIZ.length;
+ $('#btnFinish').textContent=answered()<QUIZ.length?('أجب عن '+(QUIZ.length-answered())+' سؤالاً متبقياً'):'إنهاء وعرض النتيجة';
+}
+function answer(i){
+ if(QZ.ans[QZ.i]!==null)return;
+ QZ.ans[QZ.i]=i;
+ const ok=i===QUIZ[QZ.i].c;
+ ok?Sound.good():Sound.bad();
+ renderQuiz();
+ if(answered()===QUIZ.length)setTimeout(()=>toast('أكملت كل الأسئلة — يمكنك عرض النتيجة الآن.','ok'),700);
+}
+function finish(){
+ if(answered()<QUIZ.length){
+  const k=QZ.ans.findIndex(a=>a===null);QZ.i=k;renderQuiz();
+  toast('بقي لديك '+(QUIZ.length-answered())+' سؤالاً دون إجابة.','warn');return;
+ }
+ QZ.finished=true;renderQuiz();
+ const s=score(),p=s/QUIZ.length;
+ $('#ringVal').textContent=s+'/'+QUIZ.length;
+ setTimeout(()=>{$('#ringArc').style.strokeDashoffset=String(465-465*p);},80);
+ let m,sub;
+ if(s===8){m='ممتاز! إتقان تام لواجهة Word 🏆';sub='أحسنت — أنت الآن قادر على استعمال تبويبات الشريط وأدواته الأساسية بثقة. انتقل إلى التطبيق العملي على مستند حقيقي.';}
+ else if(s>=6){m='جيد جداً! أساس متين 👏';sub='مستواك جيد، راجع الأسئلة التي أخطأت فيها لتصل إلى الإتقان الكامل قبل الامتحان.';}
+ else if(s>=4){m='مقبول — يحتاج إلى مراجعة 📘';sub='عد إلى المحاكي التفاعلي في أعلى الصفحة وجرّب الأدوات بنفسك، فالتطبيق يثبّت المعلومة أكثر من الحفظ.';}
+ else{m='يُنصح بإعادة الدرس من البداية 🔄';sub='لا بأس، البداية دائماً صعبة. استعرض التبويبات الأربعة في المحاكي، ثم أعد المحاولة — سترى الفرق مباشرة.';}
+ $('#resMsg').textContent=m;$('#resSub').textContent=sub;
+ $('#reviewBox').classList.remove('show');
+ s>=6?Sound.win():Sound.bad();
+ $('#qResult').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function buildReview(){
+ const wrong=QUIZ.map((q,i)=>({q:q,i:i})).filter(o=>QZ.ans[o.i]!==o.q.c);
+ const box=$('#reviewBox');
+ if(!wrong.length){box.innerHTML='<div class="rv-item" style="border-inline-start-color:var(--green)"><p class="q">🎉 لا توجد أخطاء — أجبت عن كل الأسئلة إجابة صحيحة.</p></div>';}
+ else{
+  box.innerHTML='<h3 style="margin:0 0 12px;font-size:1rem">مراجعة الأخطاء ('+wrong.length+')</h3>'+wrong.map(o=>
+   '<div class="rv-item"><p class="q">'+(o.i+1)+'. '+esc(o.q.q)+'</p>'
+   +'<p class="yr">إجابتك: '+esc(o.q.o[QZ.ans[o.i]])+'</p>'
+   +'<p class="cr">الإجابة الصحيحة: '+esc(o.q.o[o.q.c])+'</p>'
+   +'<p class="ex">'+esc(o.q.why)+'</p></div>').join('');
+ }
+ box.classList.add('show');
+ box.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+$('#btnPrev').addEventListener('click',()=>{if(QZ.i>0){QZ.i--;Sound.click();renderQuiz();}});
+$('#btnNext').addEventListener('click',()=>{if(QZ.i<QUIZ.length-1){QZ.i++;Sound.click();renderQuiz();}});
+$('#btnFinish').addEventListener('click',finish);
+$('#btnReview').addEventListener('click',buildReview);
+$('#btnBack').addEventListener('click',()=>{QZ.finished=false;renderQuiz();});
+$('#btnRetry').addEventListener('click',()=>{
+ QZ.i=0;QZ.ans=new Array(QUIZ.length).fill(null);QZ.finished=false;
+ $('#ringArc').style.strokeDashoffset='465';$('#reviewBox').classList.remove('show');
+ renderQuiz();toast('تمت إعادة ضبط الاختبار — بالتوفيق!','ok');Sound.apply();
+});
+
+/* ==================== 13. NAV / REVEAL ==================== */
+(function(){
+ const line=$('#progLine');
+ const spy=()=>{
+  const h=document.documentElement;
+  const p=h.scrollTop/((h.scrollHeight-h.clientHeight)||1);
+  line.style.width=(p*100)+'%';
+  let cur='sim';
+  ['sim','keys','quiz'].forEach(id=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<=140)cur=id;});
+  $$('.dock a.nl').forEach(a=>a.classList.toggle('on',a.dataset.spy===cur));
+ };
+ window.addEventListener('scroll',spy,{passive:true});spy();
+ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.08});
+ $$('.rv').forEach((el,i)=>{el.style.transitionDelay=(i%4)*70+'ms';io.observe(el);});
+})();
+
+/* ==================== 14. BOOT ==================== */
+buildTabs();
+setTab(0);
+render();
+emptyInspector();
+buildSC();
+renderQuiz();
+syncUndo();
+$('#rulerBtn').classList.add('on');
+setTimeout(()=>toast('مرحباً بك في الدليل التفاعلي — انقر أي أداة في الشريط لتبدأ.','ok'),900);
+</script>
+</body>
+</html>
